@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul,li,html,body{
+            margin:0;
+            padding:0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        div{
+            width:420px;
+            height:320px;
+            margin:0 auto;
+            background-color: #d97ea7;
+            padding:60px;
+        }
+        ul{
+            position: relative;
+            width:420px;
+            background-color: #f00;
+        }
+        ul li{
+            position: absolute;
+            width:100%;
+            height:45px;
+            line-height:45px;
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding:0 10px;
+            border-radius:6px;
+            left:0;
+            top:0;
+        }
+        ul li span{
+            position: absolute;
+            right:10px;
+        }
+        ul li span a{
+            text-decoration: none;
+            border:#d97ea7 1px solid;
+            color:#d97ea7;
+            padding:5px 8px;
+            border-radius: 5px;
+        }
+        ul li span a:hover{
+            background-color:#d97ea7;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul id="list">
+        <li>
+            jQquey
+            <span>
+               <a href="javascript://" class="prev">上移</a>
+               <a href="javascript://" class="next">下移</a>
+           </span>
+        </li>
+        <li>
+            JS基础-2
+            <span>
+               <a href="javascript://" class="prev">上移</a>
+               <a href="javascript://" class="next">下移</a>
+           </span>
+        </li>
+        <li>
+            移动端实战
+            <span>
+               <a href="javascript://" class="prev">上移</a>
+               <a href="javascript://" class="next">下移</a>
+           </span>
+        </li>
+        <li>
+            canvas游戏
+            <span>
+               <a href="javascript://" class="prev">上移</a>
+               <a href="javascript://" class="next">下移</a>
+           </span>
+        </li>
+        <li>
+            AJAX
+            <span>
+               <a href="javascript://" class="prev">上移</a>
+               <a href="javascript://" class="next">下移</a>
+           </span>
+        </li>
+    </ul>
+</div>
+<script src = '../startmove.js'></script>
+<script>
+    (function(){
+        var ul = document.getElementById('list');
+        var lis = document.getElementsByTagName('li');
+        var allPrev = document.getElementsByClassName('prev');
+        var allNext = document.getElementsByClassName('next');
+        moveList();
+        function moveList(){
+            for(var i = 0;i<lis.length;i++){
+                var lisTop = (lis[i].clientHeight * i + css(lis[i],'margin-bottom') * i);
+                startMove({
+                    el:lis[i],
+                    target:{
+                        top:lisTop
+                    },
+                    type: 'linear',
+                    time: 300
+                })
+            }
+        }
+        for(var i = 0;i<allPrev.length;i++){
+            allPrev[i].index = i;
+            allPrev[i].onclick = function(){
+                var _this = this.parentNode.parentNode;
+                var prevEle = this.parentNode.parentNode.previousElementSibling;
+                ul.insertBefore(_this,prevEle);
+                moveList();
+            }
+            allNext[i].onclick = function(){
+                var _this = this.parentNode.parentNode;
+                if(!this.parentNode.parentNode.nextElementSibling){
+                    var nextEle = ul.firstElementChild;
+                }else{
+                    var nextEle = this.parentNode.parentNode.nextElementSibling.nextElementSibling
+                }
+                ul.insertBefore(_this,nextEle);
+                moveList();
+            }
+        }
+    })();
+</script>
+</body>
+</html>

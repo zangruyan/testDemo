@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li,h2{
+            margin:0;
+            padding:0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .menu{
+            width:200px;
+            margin:30px;
+        }
+        .menu h2{
+            width:80px;
+            height:30px;
+            line-height:30px;
+            background-color:#d97ea7;
+            font-size: 14px;
+            color:#fff;
+            padding:0 10px;
+            cursor:pointer;
+        }
+        .list{
+            background-color: #2aabd2;
+            overflow: hidden;
+            height:0;
+        }
+        .list li{
+            color:#eee;
+            font-size: 12px;
+            padding:8px 10px;
+            border-bottom:#eee 1px dotted;
+        }
+        .list li a{
+            display: block;
+            text-decoration: none;
+            color:#fff;
+            font-size: 16px;
+        }
+        .list li a:hover{
+            color: #d97ea7;
+        }
+    </style>
+</head>
+<body>
+<div class="menu">
+    <h2>妙味中心</h2>
+    <ul class="list">
+        <li><a href="javascript://">VIP</a>到期时间2016-12-31</span></li>
+        <li><a href="javascript://">钱包</a>到期时间2016-12-31</span></li>
+        <li><a href="javascript://">观看记录</a>到期时间2016-12-31</span></li>
+        <li><a href="javascript://">消息</a>到期时间2016-12-31</span></li>
+    </ul>
+</div>
+<script src = "startmove.js"></script>
+<script>
+    (function(){
+        var h2Ele = document.querySelector('h2');
+        var list = document.querySelector('.list');
+        var lis = document.querySelectorAll('li');
+        var timer = '';
+        h2Ele.onmouseover = list.onmouseover = function(){
+            clearTimeout(timer);
+            var listHei = lis.length * lis[0].offsetHeight;
+            startMove({
+                el:list,
+                target:{
+                    height:listHei
+                },
+                type:'linear',
+                time:200
+            });
+
+        }
+        h2Ele.onmouseout = list.onmouseover = function(){
+            timer = setTimeout(function(){
+                startMove({
+                    el:list,
+                    target:{
+                        height:0
+                    },
+                    type:'linear',
+                    time:500
+                });
+                return false;
+            },1000);
+        }
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input,button,select{
+            outline: none;
+        }
+        html,body{
+            margin:0;
+            padding:0;
+            font:16px/24px "微软雅黑";
+            color:#000;
+        }
+        .wrap{
+            width:600px;
+            padding:50px 100px;
+            margin:0 auto;
+            background-color: #2aabd2;
+        }
+        .wrap>div{
+            margin-bottom: 50px;
+            width:520px;
+            padding:20px 70px;
+            background-color: #fff;
+            border-radius:10px;
+        }
+        .wrap>div label{
+            line-height:40px;
+            margin-right: 30px;
+        }
+        .wrap>div label input,.wrap>div label select{
+            border:#2aabd2 1px solid;
+            border-radius: 15px;
+            line-height:26px;
+            padding:0 10px;
+            margin-left: 10px;
+            color:#2aabd2;
+            width:100px;
+            height:26px;
+        }
+        .wrap>div label select{
+            background-color:#fff;
+        }
+        #sub{
+            width:100px;
+            height:26px;
+            line-height:26px;
+            background-color: #2aabd2;
+            color:#fff;
+            border:none;
+            border-radius:12px;
+        }
+
+        table{
+            width:660px;
+            background-color: #fff;
+        }
+        table thead{
+            background-color:#8d8bb4;
+            color:#fff;
+            line-height:36px;
+        }
+        table tbody{
+            background-color: #fff;
+            color:#2aabd2;
+        }
+        table tbody tr td{
+            text-align: center;
+            line-height:30px;
+            border-bottom:#2aabd2 2px solid;
+        }
+        table tr td a{
+            color:#2aabd2;
+            text-decoration: none;
+        }
+        table tr td a:hover{
+            color:#f00;
+        }
+        table tfoot td{
+            padding-left:18px;
+        }
+        table tfoot td label{
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div>
+        <form>
+            <div>
+                <label>姓名<input type="text" name="userName" /></label>
+                <label>年龄<input type="text" name="userOld" /></label>
+            </div>
+            <div>
+                <label>性别
+                    <select name = 'sex'>
+                        <option value=""></option>
+                        <option value="女">女</option>
+                        <option value="男">男</option>
+                        <option value="保密">保密</option>
+                    </select>
+                </label>
+                <input type="button" value="添加" id="sub">
+            </div>
+        </form>
+    </div>
+    <table cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <label><input type="checkbox" id="allCheck">全选</label>
+                    <a href="javascript://" id="allDel">删除</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    (function(){
+        var btnSub = document.getElementById('sub');
+        var form = document.querySelector('form');
+        var userName = document.querySelector('input[name="userName"]');
+        var userOld = document.querySelector('input[name="userOld"]');
+        var userSex = document.querySelector('select[name="sex"]');
+        var tableEle = document.querySelector('table');
+        var allCheck = document.getElementById('allCheck');
+        var allDel = document.getElementById('allDel');
+        var tBody = tableEle.tBodies[0];
+        var n = 0;
+
+        //添加按钮（主要写验证表单）
+        btnSub.onclick = function(){
+            //验证表单
+            var userNameVal = userName.value;
+            var userOldVal = userOld.value;
+            var userSexVal = userSex.value;
+            if(userNameVal==''){
+                alert('姓名不能为空');
+                return;
+            }
+            if(userOldVal=='' || isNaN(Number(userOldVal))){
+                alert('年龄不能为空并必须是数字');
+                return;
+            }
+            if(userSexVal==''){
+                alert('请选择性别');
+                return;
+            }
+            createFun(userNameVal,userOldVal,userSexVal);
+        }
+
+        //创建信息
+        function createFun(userNameVal,userOldVal,userSexVal){
+            n++;//用来设置id
+            var trEle = document.createElement('tr');
+            var inner = '<td><input type="checkbox"></td>'
+                inner+= '   <td>' + n + '</td>'
+                inner+= '   <td>' + userNameVal + '</td>'
+                inner+= '   <td>' + userOldVal + '</td>'
+                inner+= '   <td>' + userSexVal + '</td>'
+                inner+= '   <td>'
+                inner+= '       <a href="javascript://">上移</a>'
+                inner+= '       <a href="javascript://">下移</a>'
+                inner+= '       <a href="javascript://">删除</a>'
+                inner+= '</td>'
+            trEle.innerHTML = inner;
+            tBody.appendChild(trEle);
+            //form.reset();//每次添加表单重置
+            checkEleFun();
+
+            //获取操作元素
+            var asEle = trEle.getElementsByTagName('a');
+            editFun(asEle,trEle);
+
+            //单选点击
+            var checkEle = trEle.getElementsByTagName('input')[0];
+            checkEle.onchange = checkEleFun;
+        }
+
+        //操作
+        function editFun(asEle,trEle){
+            //上移
+            asEle[0].onclick = function(){
+                if(trEle.previousElementSibling){
+                    tBody.insertBefore(trEle,trEle.previousElementSibling);
+                }else{
+                    alert('当前是第一个');
+                }
+            }
+            //下移
+            asEle[1].onclick = function(){
+                if(trEle.nextElementSibling){
+                    tBody.insertBefore(trEle.nextElementSibling,trEle);
+                }else{
+                    alert('当前是最后一个');
+                }
+            }
+            //删除
+            asEle[2].onclick = function(){
+                //如果删除的是最后一个，则取消全选
+                var trLen = tBody.rows.length;
+                if(trLen==1){
+                    allCheck.checked = false;
+                }
+                //tBody.removeChild(this.parentNode.parentNode);
+                tBody.removeChild(trEle);
+                checkEleFun();
+            }
+        }
+
+        //全选
+        allCheck.onclick = function(){
+            var rowEle = tBody.rows;
+            for(var i = 0;i<rowEle.length;i++){
+                rowEle[i].querySelector('input').checked = allCheck.checked;
+            }
+        }
+
+        //单选
+        function checkEleFun(){
+            var rowEle = tBody.getElementsByTagName('input');
+            for(var i=0 ;i<rowEle.length;i++){
+                if(!rowEle[i].checked){
+                    allCheck.checked = false;
+                    break;
+                }else{
+                    allCheck.checked = true;
+                }
+            }
+        }
+
+        //删除选中的
+        allDel.onclick = function(){
+            var ckInputEle = tBody.querySelectorAll('input');
+            for(var i = 0;i<ckInputEle.length;i++){
+                if(ckInputEle[i].checked){
+                    tBody.removeChild(ckInputEle[i].parentNode.parentNode);
+                }
+            }
+            allCheck.checked? allCheck.checked = false : '';
+        }
+
+    })();
+</script>
+</body>
+</html>

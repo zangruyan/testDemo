@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        #box{
+            margin: 40px auto;
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid #000;
+        }
+        #box div {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: red;
+            font-size: 50px;
+            color: #fff;
+        }
+        input{
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function(){
+            var btn = document.querySelector('input');
+            var box = document.querySelector('#box');
+            var w = 100;
+            var h = 100;
+            var num = 0;
+            btn.onclick = function() {
+                var inner = "";
+                if(num==0){
+                    var t = -1;
+                    var l = -1;
+                    var dis = 1;
+                    for(var i = 0;i < 5;i++) {
+                        l++;
+                        if(t >= 2){
+                            dis = -dis;
+                        }
+                        t += dis;
+                        inner += '<div style="left:'+(l*w)+'px;top:'+(t*h)+'px;">'+(i+1)+'</div>';
+                    }
+
+                }else if(num==1){
+
+                    var t = 5;
+                    var l = 5;
+                    var dis = -1;
+                    for(var i = 5;i > 0;i--) {
+                        l--;
+                        if(t <= 2){
+                            dis = -dis;
+                        }
+                        t += dis;
+                        inner += '<div style="left:'+(t*h)+'px;top:'+(l*w)+'px;">'+i+'</div>';
+                    }
+
+
+                }else if(num==2){
+
+
+                    var t = 5;
+                    var l = 5;
+                    var dis = -1;
+                    for(var i = 5;i > 0 ;i--) {
+                        l--;
+                        if(t <= 2){
+                            dis = -dis;
+                        }
+                        t += dis;
+                        inner += '<div style="left:'+(l*w)+'px;top:'+(t*h)+'px;">'+i+'</div>';
+                    }
+
+
+                }else if(num==3){
+                    var t = -1;
+                    var l = -1;
+                    var dis = 1;
+                    for(var i = 0;i < 5;i++) {
+                        l++;
+                        if (t >= 2) {
+                            dis = -dis;
+                        }
+                        t += dis;
+                        inner += '<div style="left:' + (t * h) + 'px;top:' + (l * w) + 'px;">' + (i+1) + '</div>';
+                    }
+                    num = -1;
+                }
+                num++;
+                box.innerHTML = inner;
+            }
+
+        };
+    </script>
+</head>
+<body>
+
+<input type="button" value="生成"/>
+<div id="box"></div>
+</body>
+</html>

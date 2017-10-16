@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap{
+            width:600px;
+            margin:0 auto;
+            border:#000 1px solid;
+        }
+        .cont{
+            overflow: hidden;
+        }
+        .left{
+            float: left;
+            background-color: #d97ea7;
+            width:530px;
+            height:200px;
+            color:#fff;
+        }
+        .left span{
+            background-color: #2aabd2;
+        }
+        .right{
+            float: right;
+        }
+        .right>div{
+            display: none;
+        }
+        .right a{
+            display:block;
+            width:60px;
+            height:60px;
+            background-color: #2aabd2;
+            text-align: center;
+            line-height:60px;
+            color:#fff;
+            text-decoration: none;
+            margin-bottom:5px;
+        }
+        .foot{
+            display: none;
+        }
+        .foot a{
+            text-decoration: none;
+            color:#000;
+            background-color: #dd9bb9;
+            color:#fff;
+            padding:0px 10px;
+        }
+        .foot a.cur{
+            background-color: #680023;
+        }
+
+        .footCont>div{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="cont">
+        <div class="left"></div>
+        <div class="right">
+            <a href="javascript://" id="open">打开</a>
+            <div class="menu">
+                <a href="javascript://" class="find">查找</a>
+                <a href="javascript://" class="replace">替换</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="foot">
+        <div>
+            <a href="javascript://" class="find cur">查找</a>
+            <a href="javascript://" class="replace">替换</a>
+        </div>
+        <div class="footCont">
+            <div style="display: block;">
+                <input type="text" placeholder="请输入查找的内容" id="findText" /><input type="button" value="查找" id="btnFind" />
+            </div>
+            <div>
+                <input type="text" placeholder="请输入查找的内容" id="select" /><input type="text" placeholder="请输入要替换的内容" id="reCont" /><input type="button" id="btnReplace" value="替换" />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var strCont = 'zangruyan asdfadfafafafdasdasdfasdfaasdfadfafafafdasdasdfasdfa<br/>asdfadfafafafdasdasdfasdfaasdfadfafafafdasdasdfasdfa<br/>asdfadfafafafdasdasdfasdfaasdfadfafafafdasdasdfasdfa<br/>asdfadfafafafdasdasdfasdfaasdfadfafafafdasdasdfasdfa<br/>asdfadfafafafdasdasdfasdfaasdfadfafafafdasdasdfasdfa<br/>asdfadfafafafdasdasdfasdfaasdfadfafafafdasdasdfasdfa<br/>javascript is good javascript is good javascript is good<br/>javascript is good javascript is good javascript is goodzangruyan';
+    var open = document.getElementById('open');
+    var menu = document.querySelector('.menu');
+    var find = document.querySelectorAll('.find');
+    var replace = document.querySelectorAll('.replace');
+    var food = document.querySelector('.foot');
+    var footCont = document.querySelectorAll('.footCont div');
+
+    var btnFind = document.getElementById('btnFind');
+    var btnReplace = document.getElementById('btnReplace');
+
+    var leftText = document.querySelector('.left');
+    leftText.innerHTML = strCont;
+
+
+    var off = true;
+    open.onclick = function(){
+        if(off){
+            menu.style.display = 'block';
+            food.style.display = 'block';
+            this.innerHTML = '关闭';
+        }else{
+            menu.style.display = 'none';
+            food.style.display = 'none';
+            this.innerHTML = '打开';
+        }
+        off = !off;
+    }
+    for(var i = 0;i<replace.length;i++){
+        find[i].onclick = function(){
+            replace[1].className = 'replace';
+            find[1].className = 'find cur';
+            food.style.display = 'block';
+            footCont[1].style.display = 'none';
+            footCont[0].style.display = 'block';
+        }
+        replace[i].onclick = function(){
+            find[1].className = 'replace';
+            replace[1].className = 'find cur';
+            food.style.display = 'block';
+            footCont[1].style.display = 'block';
+            footCont[0].style.display = 'none';
+        }
+    }
+
+    btnFind.onclick = function(){
+        var value = document.getElementById('findText').value;
+        if(value==''){
+            alert('查找内容不能为空');
+            return;
+        }
+        arr = strCont.split(value);
+        strs = arr.join('<span>'+value+'</span>');
+        leftText.innerHTML = strs;
+    }
+
+    btnReplace.onclick = function(){
+        var value = document.getElementById('select').value;
+        var reCont = document.getElementById('reCont').value;
+        var strCont = leftText.innerHTML;
+        if(value=='' && reCont==''){
+            alert('查找和替换内容不能为空');
+            return;
+        }
+        arr = strCont.split(value);
+        strs = arr.join(reCont);
+        leftText.innerHTML = strs;
+    }
+</script>
+</body>
+</html>

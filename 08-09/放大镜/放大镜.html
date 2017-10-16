@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin:0;
+            padding:0;
+        }
+        #box{
+            position:relative;
+            margin: 100px auto;
+            width: 393px;
+            height: 262.5px;
+        }
+        #box img{
+            width:100%;
+        }
+        .mask{
+            position: absolute;
+            width:80px;
+            height:80px;
+            background-color: #000;
+            opacity: .5;
+            top:0;
+            left:0;
+            display: none;
+        }
+        #bigImg{
+            position:absolute;
+            width:160px;
+            height:160px;
+            right:-200px;
+            top:0;
+            background:url("img/img05.png") no-repeat 0 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <img src="img/img05.png">
+    <span class="mask"></span>
+    <div id="bigImg"></div>
+</div>
+<script src="../6.19/startmove.js"></script>
+<script>
+    var box = document.getElementById('box');
+    var mask = document.querySelector('.mask');
+    var bigImg = document.getElementById('bigImg');
+    var scale = css(bigImg,'width')/css(mask,'width');
+    box.onmouseover = function(e){
+        //根据鼠标位置设置mask位置
+        setMonuse(e);
+        mask.style.display = 'block';
+        bigImg.style.display = 'block';
+    }
+    box.onmouseout = function(e){
+        mask.style.display = 'none';
+        bigImg.style.display = 'none';
+    }
+    box.onmousemove = function(e){
+        //根据鼠标位置设置mask位置
+        setMonuse(e);
+
+    }
+    function setMonuse(e){
+        var x = e.clientX;
+        var y = e.clientY;
+
+        var Rect = box.getBoundingClientRect();
+            x -= Rect.left;
+            y -= Rect.top;
+
+
+        //减去元素宽高的一半，把鼠标放在元素的中间
+        x -= mask.offsetWidth/2;
+        y -= mask.offsetHeight/2;
+
+        var maxX = Rect.width - mask.offsetWidth;
+        if(x<0){
+            x = 0;
+        }else if(x>maxX){
+            x = maxX;
+        }
+
+        var maxY = Rect.height - mask.offsetHeight;
+        if(y<0){
+            y = 0;
+        }else if(y>maxY){
+            y = maxY;
+        }
+
+        mask.style.left = x +'px';
+        mask.style.top = y + 'px';
+        bigImg.style.backgroundPosition = "-"+ x*scale +"px -"+ y*scale+"px";
+    }
+</script>
+</body>
+</html>

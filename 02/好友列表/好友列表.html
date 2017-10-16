@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul,li{
+            list-style: none;
+            margin: 0;
+            padding:0;
+        }
+        aside{
+            width:100px;
+            margin: 0 auto;
+            border:#000 1px solid;
+            padding:10px;
+        }
+        h3{
+            padding:0;
+            margin:0;
+        }
+        ul{
+            transition: 1s;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<aside>
+    <h3>好友列表1</h3>
+    <ul>
+        <li>菜单一</li>
+        <li>菜单二</li>
+        <li>菜单三</li>
+    </ul>
+    <h3>好友列表2</h3>
+    <ul>
+        <li>菜单4</li>
+        <li>菜单5</li>
+        <li>菜单6</li>
+    </ul>
+    <h3>好友列表3</h3>
+    <ul>
+        <li>菜单7</li>
+        <li>菜单8</li>
+        <li>菜单9</li>
+    </ul>
+</aside>
+<script>
+    var h3 = document.querySelectorAll("h3");
+    var uls = document.querySelectorAll("ul");
+    var lisAll = document.querySelectorAll('li');
+    var now = 0;
+
+    for(var i = 0;i<h3.length;i++){
+        h3[i].index = i;
+        h3[i].isOpen = false;
+        h3[i].onclick = function() {
+            clear();
+            if(this.isOpen){
+                uls[now].style.display = 'none';
+            }else{
+                uls[now].style.display = 'none';
+                h3[now].isOpen = false;
+
+                now = this.index;
+                uls[now].style.display = 'block';
+
+                var lis =uls[now].querySelectorAll('li');
+                var now2 = 0;
+                for(var i = 0;i<lis.length;i++){
+                    lis[i].index = i;
+                    lis[i].isLi = false;
+                    lis[i].onmouseover = function() {
+                        //this.className = 'active'
+                        if(!this.isLi) {
+                            this.style = 'background-color:#f00;color:#fff';
+                        }
+
+                    }
+                    lis[i].onmouseout = function() {
+                        if(this.isLi){
+                            lis[now2].style = 'background-color:#f60;color:#fff';
+
+                        }else{
+                            this.style = '';
+                        }
+                    }
+                    lis[i].onclick = function() {
+                        if(this.isLi){
+                            lis[now2].style = '';
+                        }else{
+                            clear();
+                            lis[now2].isLi = false;
+
+                            now2 = this.index;
+                            lis[now2].style = 'background-color:#f60;color:#fff';
+                        }
+                        this.isLi = !this.isLi;
+
+                    }
+                }
+            }
+
+            this.isOpen = !this.isOpen;
+        }
+    }
+    function clear(){
+        for(var i = 0;i<lisAll.length;i++){
+            lisAll[i].style = '';
+        }
+    }
+</script>
+</body>
+</html>

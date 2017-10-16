@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul,li{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            width:400px;
+            padding:20px 10px;
+            margin:50px auto;
+            background-color: #daaeb5;
+        }
+        li{
+            list-style: none;
+            margin:10px;
+            height:40px;
+            border-bottom:#ddd dotted 1px;
+            color:#fff;
+        }
+        li button{
+            border:none;
+            width:60px;
+            height:25px;
+            line-height:20px;
+            color:#fff;
+            background-color:#d97ea7;
+            cursor:pointer;
+            vertical-align: middle;
+            margin-left: 20px;
+            border-radius: 5px;
+            outline: none;
+        }
+        li div:nth-of-type(2){
+            display: none;
+        }
+        li div:nth-of-type(2) button:nth-of-type(2){
+            background-color: #ccc;
+            color:#000;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li>
+        <div>
+            <span>欢迎来到秒味课堂</span><button class="edit">编辑</button>
+        </div>
+        <div>
+            <input type="text" value="欢迎来到秒味课堂" />
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </li>
+    <li>
+        <div>
+            <span>欢迎来到秒味课堂</span><button class="edit">编辑</button>
+        </div>
+        <div>
+            <input type="text" value="欢迎来到秒味课堂" />
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </li>
+    <li>
+        <div>
+            <span>欢迎来到秒味课堂</span><button class="edit">编辑</button>
+        </div>
+        <div>
+            <input type="text" value="欢迎来到秒味课堂" />
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </li>
+</ul>
+<script>
+    var lis = document.querySelectorAll('li');
+    for(var i = 0;i<lis.length;i++){
+        edit(lis[i]);
+    }
+    function edit(lis) {
+        var divs = lis.querySelectorAll('div');
+        var edit = lis.querySelector('.edit');
+        var span = lis.querySelector('span');
+        var text = lis.querySelector('input');
+        var ok = lis.querySelector('.ok');
+        var cancel = lis.querySelector('.cancel');
+        edit.onclick = function() {
+            divs[0].style.display = 'none';
+            divs[1].style.display = 'block';
+        }
+        ok.onclick = function(){
+            if(text.value==''){
+                alert('请输入内容');
+            }else{
+                span.innerHTML = text.value;
+                divs[0].style.display = 'block';
+                divs[1].style.display = 'none';
+            }
+        }
+        cancel.onclick = function() {
+            text.value = span.innerHTML;
+            divs[0].style.display = 'block';
+            divs[1].style.display = 'none';
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style id="css">
+        ul,li,div,h4,table,thead,td,tr{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            list-style: none;
+        }
+        .wrap{
+            width:1200px;
+            margin:50px auto;
+            background: #de4a63;
+            padding:16px 0;
+            font-size:14px;
+            color:#666;
+        }
+        ul{
+            overflow: hidden;
+        }
+        ul li{
+            float: left;
+            width:280px;
+            height:560px;
+            margin-left: 16px;
+            background-color: #fff;
+            text-align: center;
+            position:relative;
+            overflow: hidden;
+        }
+        ul li input{
+            position: relative;
+        }
+        ul li a{
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,.4);
+            position:absolute;
+            left:0;
+            top:0;
+            opacity:1;
+            transform: scale(2);
+            transition: .3s;
+            z-index: -1;
+        }
+        /*ul li:hover a{
+            opacity:1;
+            transform: scale(1);
+            z-index:2;
+        }*/
+        ul li a img{
+            width:150px;
+            height:150px;
+            text-align: center;
+            margin-top: 205px;
+            transform:rotate(-25deg);
+        }
+        ul li em{
+            color:#f00;
+            font-style: normal;
+        }
+
+        ul li img{
+            width:100%;
+        }
+        table{
+            margin:16px;
+            width:1168px;
+            border:#000 1px solid;
+
+        }
+        table tr td{
+            width:33.33%;
+            padding:0 16px;
+        }
+        table tr td img{
+            width:40px;
+        }
+        table thead tr td{
+            background-color: #000;
+            color:#fff;
+            line-height: 35px;
+        }
+        table tbody tr:nth-of-type(odd) td{
+            background-color: #fff;
+        }
+        table tbody tr:nth-of-type(even) td{
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <ul></ul>
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <td>商品</td>
+                <td>价钱</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody id="cont"></tbody>
+    </table>
+</div>
+<script type="text/javascript" src="startmove.js"></script>
+<script>
+var arr = [
+    {
+        setTime:'2017 05 31 20:20:20',
+        img:'img/1.JPG',
+        title:'iphone 7s plus',
+        price:'8000'
+    },
+    {
+        setTime:'2017 06 01 20:20:20',
+        img:'img/2.JPG',
+        title:'iphone 6s plus',
+        price:'800'
+    },
+    {
+        setTime:'2017 06 03 12:20:00',
+        img:'img/3.JPG',
+        title:'iphone',
+        price:'6288'
+    },
+    {
+        setTime:'2017 05 03 20:20:20',
+        img:'img/5.JPG',
+        title:'三星老师',
+        price:'1800'
+    }
+];
+var ul = document.querySelector('ul');
+var innerHtml = '';
+for(var i = 0;i<arr.length;i++){
+    //console.log(arr[i].setTime);
+    innerHtml+='    <li>'
+    innerHtml+='        <a href="javascript://"><img src="img/over.png"> </a>'
+    innerHtml+='        <div><input type="text" value="'+arr[i].setTime+'" class="setTime" /><input type="button" value="确定" class="setBtn"> </div>'
+    innerHtml+='        <div>'
+    innerHtml+='            <p>剩余'
+    innerHtml+='                <span>0</span>'
+    innerHtml+='                <span>0</span> :'
+    innerHtml+='                <span>0</span>'
+    innerHtml+='                <span>0</span> :'
+    innerHtml+='                <span>0</span>'
+    innerHtml+='                <span>0</span>'
+    innerHtml+='            </p>'
+    innerHtml+='            <div>'
+    innerHtml+='                <img src="'+arr[i].img+'">'
+    innerHtml+='            </div>'
+    innerHtml+='            <h4>'+arr[i].title+'</h4>'
+    innerHtml+='            <p>抢购价<em>¥'+arr[i].price+'</em></p>'
+    innerHtml+='        </div>'
+    innerHtml+='    </li>'
+}
+ul.innerHTML = innerHtml;
+
+var setTime = document.querySelectorAll('.setTime');
+var setBtn = document.querySelectorAll('.setBtn');
+var lis = document.querySelectorAll('li');
+var cssStyle = document.querySelector('#css');
+for(var i=0;i<setTime.length;i++){
+
+    setBtn[i].index = i;
+    setBtn[i].onclick = function(){
+
+        if(setTime[this.index].value==''){
+            alert('请输入开始日期');
+            return;
+        }
+
+        var val = setTime[this.index].value;
+        this.date = new Date(val);
+
+
+        var _this = this;
+        clearInterval(this.timer);
+        this.timer = setInterval(function(){
+            getDis(_this);
+        },16);
+
+    }
+}
+function getDis(el){
+    //console.log(el);
+    var dateNow = new Date();
+    var dateNowOld = parseInt((el.date.getTime() - dateNow.getTime())/1000);
+
+
+    var day = parseInt(dateNowOld/86400) * 24;
+    var hours = parseInt((dateNowOld%86400)/3600) + day;
+    var minutes = parseInt((dateNowOld%3600)/60);
+    var seconds = (dateNowOld%60);
+    var DTime = toDB(hours)+toDB(minutes)+toDB(seconds);
+
+    if(day>=100){
+        //setTime[el.index].value = arr[el.index].setTime;
+        setTime[el.index].style.border = "#f00 1px solid";
+        return;
+    }
+    setTime[el.index].style.border = "";
+    if(dateNowOld<=0){
+        cssStyle.innerHTML+="li:nth-of-type("+(el.index+1)+") a{z-index:2; opacity:1;transform: scale(1);}";
+        DTime = '000000';
+
+        tabFun(el.index);
+
+        // 抖动效果
+        var v = 10;
+        var a = true;
+
+        var timer = setInterval(function() {
+            if (a) {
+                lis[el.index].style.left = -v + 'px';
+            } else {
+                lis[el.index].style.left =  v + 'px';
+                v -= 2;
+                if (v == 0) {
+                    clearInterval(timer);
+                    lis[el.index].style.left = '0';
+                }
+            }
+
+            a = !a;
+
+        }, 38);
+
+
+
+        clearInterval(el.timer);
+    }
+
+    var spans = lis[el.index].querySelectorAll('span');
+    for(var i = 0;i<spans.length;i++){
+        spans[i].innerHTML = DTime[i];
+    }
+
+}
+function toDB(nub){
+    return nub < 10?'0' + nub:''+nub;
+}
+var tabHtml = '';
+var cont = document.getElementById('cont');
+function tabFun(index){
+    //console.log(arr[index].title);
+    tabHtml +=' <tr>'
+    tabHtml +='     <td>'+arr[index].title+'</td>'
+    tabHtml +='     <td>¥'+arr[index].price+'</td>'
+    tabHtml +='     <td><img src="'+arr[index].img+'"></td>'
+    tabHtml +=' </tr>'
+
+    cont.innerHTML = tabHtml;
+}
+</script>
+</body>
+</html>

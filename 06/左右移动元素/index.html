@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li{
+            margin: 0;
+            padding:0;
+        }
+        ul li{
+            list-style: none;
+        }
+        .wrap{
+            width:500px;
+            margin:0 auto;
+            height:400px;
+            background-color: #8d8bb4;
+        }
+        .wrap ul,.wrap div{
+            float: left;
+        }
+        .wrap ul{
+            background-color: #d97ea7;
+            width:200px;
+            height:400px;
+        }
+        .wrap ul li{
+            padding-left:50px;
+            line-height:35px;
+            color:#fff;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .wrap ul li:hover,.wrap ul li.active{
+            background-color: #dd9bb9;
+        }
+        .wrap div{
+            width:100px;
+            height:400px;
+            background-color: #f60;
+        }
+        .wrap div input{
+            outline: none;
+            display: block;
+            border:none;
+            width:80px;
+            height:45px;
+            margin:40px auto;
+            border-radius:8px;
+        }
+        .wrap div input:hover{
+            background-color: #680023;
+            color:#fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <ul>
+        <li>小程序1</li>
+        <li>小程序2</li>
+        <li>小程序3</li>
+        <li>小程序4</li>
+        <li>小程序5</li>
+    </ul>
+    <div>
+        <input type="button" value="<向左">
+        <input type="button" value="向右>">
+    </div>
+    <ul>
+        <li>node1</li>
+        <li>node2</li>
+        <li>node3</li>
+        <li>node4</li>
+        <li>node5</li>
+    </ul>
+</div>
+<script>
+    var uls = document.querySelectorAll('ul');
+    var lis = document.querySelectorAll('li');
+    var btn = document.querySelectorAll('input');
+    for(var i = 0;i<lis.length;i++){
+        lis[i].onclick = function(){
+            this.className = 'active';
+        }
+    }
+    btn[0].onclick = function(){
+        listTab(uls[1],uls[0]);
+    }
+    btn[1].onclick = function(){
+        listTab(uls[0],uls[1]);
+    }
+    //ulIn拿值的列表，ulTo插入的列表
+    function listTab(ulIn,ulTo){
+        var lisEle = ulIn.querySelectorAll('.active');
+        for(var i = lisEle.length-1;i >= 0;i--){
+            lisEle[i].className = '';
+            ulTo.insertBefore(lisEle[i],ulTo.firstElementChild);
+        }
+    }
+</script>
+</body>
+</html>

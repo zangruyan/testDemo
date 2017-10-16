@@ -1,0 +1,136 @@
+html,body,ul,li{
+    margin:0;
+    padding:0;
+    color:#fff;
+    font-size: 12px;
+}
+a{
+    text-decoration: none;
+    color: #fff;
+}
+ul,li{
+    list-style: none;
+    margin-bottom: 30px;
+}
+.wrap{
+    width:560px;
+    height:480px;
+    background-color:#dd9bb9;
+    margin:50px auto;
+    border-radius:10px;
+    padding:20px 20px;
+}
+.wrap>div{
+    display: none;
+}
+#menu{
+    overflow: hidden;
+}
+.title,.list,.list a>div>span{
+    float: left;
+}
+.title{
+    width:60px;
+    height:460px;
+    padding:10px;
+    text-align: right;
+}
+.title li a{
+    display: block;
+    font-weight: bold;
+}
+.title li:hover a,.title li.cur a{
+    cursor: pointer;
+    color:#f60;
+}
+.list{
+    width:460px;
+    height:480px;
+    border-left:#fff 2px solid;
+    position:relative;
+    overflow: hidden;
+}
+.list>div{
+    position:absolute;
+    width:460px;
+    height:480px;
+    left: 0;
+    top:0;
+    opacity: 1;
+}
+.list>div>a{
+    position:relative;
+    width:100%;
+    display: block;
+
+}
+.list>div>a:hover{
+    background-color: #2aabd2;
+}
+.list>div>a em{
+    position:absolute;
+    width:2px;
+    height:60%;
+    background-color: #f60;
+    left:-2px;
+    top:20%;
+    display: none;
+}
+.list>div>a em.cur{
+    display: block;
+}
+.list>div>a>div{
+    margin:0 15px;
+    border-bottom:#fff 1px dotted;
+    overflow:hidden;
+    padding:10px 0;
+}
+.list>div>a>div>span{
+    padding:0 10px;
+    text-align: center;
+    color:#fff;
+    font-weight: bold;
+    font-size: 24px;
+    border-right: #fff 1px solid;
+    margin-right: 20px;
+}
+.list>div>a>div>span.cur{
+    color:#dbdfdf;
+}
+.list>div> a>div div span{
+    float:right;
+}
+.list>div>div{
+    text-align: center;
+    margin-top: 20px;
+}
+.list>div>div a{
+    padding:5px 8px;
+    border-radius: 5px;
+    border:#fff 1px solid;
+    display:inline-block;
+    margin-left: 5px;
+}
+.list>div>div a:hover,.list>div>div a.cur{
+    background-color: #2aabd2;
+    border:#dd9bb9 1px solid;
+    transition:.2s;
+}
+h5 span{
+    float:right;
+}
+.view-title{
+    text-align: right;
+    font-size: 14px;
+}
+.view-title a:first-child:hover{
+    color:#2aabd2;
+}
+a.push{
+    border:#2aabd2 1px solid;
+    padding:3px 8px;
+    margin-left: 30px;
+    border-radius: 5px;
+    color:#2aabd2;
+    background-color: #fff;
+}

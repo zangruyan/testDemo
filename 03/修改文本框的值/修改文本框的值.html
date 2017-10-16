@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>编辑修改2</title>
+<style>
+	li{margin:10px;}
+	li div:nth-of-type(2){display: none;}
+</style>
+</head>
+
+<body>
+<ul>
+	<li>
+		<div>
+			<span>欢迎来到秒味课堂</span><button class="edit">编辑</button>
+		</div>
+		<div>
+			<input type="text" value="欢迎来到秒味课堂" />
+			<button class="ok">确定</button>
+			<button class="cancel">取消</button>
+		</div>
+	</li>
+	<li>
+		<div>
+			<span>欢迎来到秒味课堂</span><button class="edit">编辑</button>
+		</div>
+		<div>
+			<input type="text" value="欢迎来到秒味课堂" />
+			<button class="ok">确定</button>
+			<button class="cancel">取消</button>
+		</div>
+	</li>
+	<li>
+		<div>
+			<span>欢迎来到秒味课堂</span><button class="edit">编辑</button>
+		</div>
+		<div>
+			<input type="text" value="欢迎来到秒味课堂" />
+			<button class="ok">确定</button>
+			<button class="cancel">取消</button>
+		</div>
+	</li>
+</ul>
+<script>
+	var _lis = document.querySelectorAll('li');
+	
+	for(var i=0;i<_lis.length;i++){
+		edits(_lis[i]);
+	}
+	
+	function edits(li){
+		
+		var _divs= li.querySelectorAll('div');
+		var _span= li.querySelector('span');
+		var _inp = li.querySelector('input');
+		var _ok  = li.querySelector('.ok');
+		var _can = li.querySelector('.cancel');
+		var _edit= li.querySelector('.edit');
+		
+		
+		_edit.onclick = function(){
+			_divs[0].style.display = 'none';
+			_divs[1].style.display = 'block';
+			_inp.select();
+		}
+		_ok.onclick = function(){
+			if(_inp.value==''){
+				alert('请输入内容');
+			}else{
+				_divs[0].style.display = 'block';
+				_divs[1].style.display = 'none';
+				_span.innerHTML = _inp.value;
+			}
+
+		}
+		_can.onclick = function(){
+			_divs[0].style.display = 'block';
+			_divs[1].style.display = 'none';
+			_inp.value = _span.innerHTML;
+		}
+	}
+</script>
+</body>
+</html>

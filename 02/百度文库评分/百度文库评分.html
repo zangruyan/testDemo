@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div,p,button{
+            margin:0;
+            padding:0;
+        }
+        .wrap{
+            background:#8d8bb4;
+            background:-webkit-gradient(linear, 0 0, 0 100%, from(#8d8bb4), to(#dd9bb9));
+            width:400px;
+            height:100px;
+            padding:20px;
+            margin:0 auto;
+            border-radius:5px;
+        }
+        .wrap p{
+            text-align: center;
+            color:#fff;
+            line-height:40px;
+        }
+        button{
+            padding:20px;
+            outline: none;
+            border-radius: 50%;
+            border:none;
+            float:left;
+            background-color: #eee;
+            margin-right:10px;
+        }
+        button.checked{
+            background-color:#daaeb5;
+        }
+        button.checked2{
+            background-color: #d97ea7;
+        }
+        span{
+            margin-left:30px;
+            text-align: center;
+            line-height: 40px;
+            float: left;
+            color:#fff;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+    <p>点击大圈圈就能打分^_^</p>
+    <button></button>
+    <button></button>
+    <button></button>
+    <button></button>
+    <button></button>
+    <span></span>
+</div>
+<script>
+    var span = document.querySelector('span');
+    var buts = document.querySelectorAll('button');
+    var info = ["极差","差","一般","好","极好"];
+    var n = -1;//定义点击的是那个
+    /*循环*/
+    for(var i = 0;i<buts.length;i++){
+        buts[i].index = i;
+        //鼠标移入
+        buts[i].onmouseover = function(){
+            this.className = 'checked';
+            span.innerHTML = info[this.index];
+
+            for(var i = 0;i<buts.length;i++){
+                if(i<=this.index){
+                    /*if(this.index<=(buts.length/2)){
+                        buts[i].className = 'checked';
+                    }else{
+                        buts[i].className = 'checked2';
+                    }*/
+                    buts[i].className = this.index<=(buts.length/2)?"checked":"checked2"
+                }else{
+                    buts[i].className = '';
+                }
+            }
+        }
+        //鼠标移出
+        buts[i].onmouseout = function() {
+            /*if(n==-1) {
+                span.innerHTML = '';
+            }else{
+                span.innerHTML = info[n];
+            }*/
+            span.innerHTML = (n==-1)? '' : info[n];
+            for(var i = 0;i<buts.length;i++){
+                if(i<=n){
+                    /*if(n<=(buts.length/2)){
+                        buts[i].className = 'checked';
+                    }else{
+                        buts[i].className = 'checked2';
+                    }*/
+                    buts[i].className = n<=(buts.length/2)?"checked":"checked2";
+                }else{
+                    buts[i].className = '';
+                }
+            }
+        }
+        //点击设置index
+        buts[i].onclick = function(){
+            n = this.index;
+        }
+    }
+</script>
+</body>
+</html>

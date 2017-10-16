@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        ul,li,input,button{
+            margin:0;
+            padding:0;
+            list-style: none;
+            border:none;
+            outline: none;
+        }
+        .wrap{
+            width: 360px;
+            height:480px;
+            padding:120px 100px;
+            margin:0 auto;
+            background: url("bg.jpg") no-repeat;
+            color:#fff;
+        }
+        .wrap ul{
+            margin-top: 60px;
+        }
+        .wrap>div{
+            margin-top: 160px;
+        }
+        input{
+            display: inline-block;
+            width:30px;
+            line-height:30px;
+            text-align:center;
+
+        }
+        ul li{
+            margin-bottom: 10px;
+        }
+        button{
+            width:30px;
+            line-height:30px;
+            background-color: #000;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <ul>
+        <li>
+            <button class="left">-</button>
+            <input type="text" value="0">
+            <button class="right">+</button>
+            单价：<span class="only">12.5</span>元
+            小计：<span class="onlyMoney">0</span>元
+        </li>
+        <li>
+            <button class="left">-</button>
+            <input type="text" value="0">
+            <button class="right">+</button>
+            单价：<span class="only">8</span>元
+            小计：<span class="onlyMoney">0</span>元
+        </li>
+        <li>
+            <button class="left">-</button>
+            <input type="text" value="0">
+            <button class="right">+</button>
+            单价：<span class="only">21</span>元
+            小计：<span class="onlyMoney">0</span>元
+        </li>
+        <li>
+            <button class="left">-</button>
+            <input type="text" value="0">
+            <button class="right">+</button>
+            单价：<span class="only">18</span>元
+            小计：<span class="onlyMoney">0</span>元
+        </li>
+    </ul>
+    <div>
+        商品共合计：<span class="numAll">0</span>件<br>
+        共花费<span class="moneyAll">0</span>元<br>
+        其中最贵的商品单价是：<span class="maxMoney">0</span>元
+    </div>
+</div>
+<script>
+    //获取元素
+    var right = document.querySelectorAll('.right');
+    var left = document.querySelectorAll('.left');
+    var inputs =document.querySelectorAll('input');
+    var only = document.querySelectorAll('.only');
+    var onlyMoney = document.querySelectorAll('.onlyMoney');
+    var numAll = document.querySelector('.numAll');
+    var moneyAll = document.querySelector('.moneyAll');
+    var maxMoney = document.querySelector('.maxMoney');
+    for(var i = 0;i< inputs.length;i++){
+        addSize(right[i],left[i],inputs[i],only[i],onlyMoney[i]);
+        minuSize(right[i],left[i],inputs[i],only[i],onlyMoney[i]);
+        inputEdit(right[i],left[i],inputs[i],only[i],onlyMoney[i]);
+    }
+    //修改了input
+    function inputEdit(right,left,inputs,only,onlyMoney){
+        inputs.onchange = function(){
+            var value = Number(inputs.value);
+            inputs.value = value;
+            onlyMoney.innerHTML = value * Number(only.innerHTML);
+
+            sizeAll();
+        }
+    }
+    //加法
+    //加 减 数量 小计
+    function addSize(right,left,inputs,only,onlyMoney){
+        right.onclick = function(){
+            var value = Number(inputs.value);
+            value +=1;
+            inputs.value = value;
+            onlyMoney.innerHTML = value * Number(only.innerHTML);
+
+            sizeAll();
+
+        }
+    }
+    //减法
+    function minuSize(right,left,inputs,only,onlyMoney){
+        left.onclick = function(){
+            var value = Number(inputs.value);
+            if(value==0){
+                return false;
+            }
+            value -=1;
+            inputs.value = value;
+            onlyMoney.innerHTML = value * Number(only.innerHTML);
+
+            sizeAll();
+        }
+    }
+    //总数
+    //总商品多少钱
+    //总商品件数
+    //最贵的
+    //单个的数量，单个的单价，单个的总数
+    function sizeAll(){
+        //单价的计算
+        var _sizeAll = 0;
+        for(var i = 0;i<inputs.length;i++){
+            _sizeAll += Number(inputs[i].value);
+        }
+        numAll.innerHTML = _sizeAll;
+
+
+        //总消费
+        var _moneyAll = 0;
+        for(var i = 0;i<onlyMoney.length;i++){
+            _moneyAll += Number(onlyMoney[i].innerHTML);
+        }
+        moneyAll.innerHTML = _moneyAll;
+
+        //最大值
+        var _max = 0;
+        for(var i = 0;i<onlyMoney.length;i++){
+            //如果单个数量大于1并且最贵
+            if(Number(inputs[i].value)>0&&Number(only[i].innerHTML)>_max){
+                _max = only[i].innerHTML;
+            }
+        }
+        maxMoney.innerHTML = _max;
+
+    }
+
+</script>
+</body>
+</html>

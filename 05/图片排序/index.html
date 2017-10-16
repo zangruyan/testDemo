@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul,li{
+            margin:0;
+            padding:0;
+            list-style: none;
+        }
+        .wrap{
+            width:800px;
+            background-color: #d97ea7;
+            padding:20px;
+            margin:0 auto;
+        }
+        .btn{
+            text-align: center;
+        }
+        button{
+            border:none;
+            color:#fff;
+            outline: none;
+        }
+        button.cur{
+            background-color:#f60;
+        }
+        ul{
+            overflow: hidden;
+            padding:30px;
+        }
+        ul li{
+            width:145px;
+            height:145px;
+            position: relative;
+            float: left;
+            margin:20px;
+        }
+        ul li a{
+            position: absolute;
+            width:80px;
+            height:30px;
+            line-height:30px;
+            background-color: #fff;
+            color:#8d8bb4;
+            border-radius:8px;
+            bottom:-15px;
+            left:50%;
+            margin-left: -40px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="btn">
+        <button class="cur">从小到大</button>
+        <button>打乱顺序</button>
+    </div>
+    <ul></ul>
+</div>
+<script>
+    var arr = [
+        {
+            id:8,
+            title:'黑',
+            colors:'#000'
+        },
+        {
+            id:7,
+            title:'橙',
+            colors:'#f60'
+        },
+        {
+            id:4,
+            title:'黄',
+            colors:'#f3f85e'
+        },
+        {
+            id:1,
+            title:'绿',
+            colors:'#91f7a7'
+        },
+        {
+            id:6,
+            title:'白',
+            colors:'#fff'
+        },
+        {
+            id:2,
+            title:'蓝',
+            colors:'#83dfef'
+        },
+        {
+            id:3,
+            title:'紫',
+            colors:'#b98bf7'
+        },
+        {
+            id:5,
+            title:'粉',
+            colors:'#f7cae3'
+        }
+
+    ];
+    var ul = document.querySelector('ul');
+    var buts = document.querySelectorAll('button');
+    var onOf = true;
+    buts[0].onclick = function(){
+        btnCss(this);
+        this.innerHTML = onOf ? '从大到小': '从小到大';
+        onOf ? arr.sort(function(a, b){return a.id - b.id;}) : arr.sort(function(a, b){return b.id - a.id;});
+        onOf = !onOf;
+        arrFun(arr);
+    }
+    buts[1].onclick = function(){
+        btnCss(this);
+        arr.sort(function(a, b) {
+            return Math.random() - 0.5;
+        });
+        arrFun(arr);
+    }
+    function btnCss(_this){
+        for(var i = 0 ;i<buts.length;i++){
+            buts[i].className = '';
+        }
+        _this.className = 'cur';
+    }
+
+
+    arrFun(arr);
+    function arrFun(arr){
+        var inner = '';
+        for(var i = 0;i<arr.length;i++){
+            inner+='<li style="background-color:'+arr[i].colors+'">'
+            inner+='    <a href="javascript://">'+arr[i].id+'-'+arr[i].title+'</a>'
+            inner+='</li>'
+        }
+        ul.innerHTML = inner;
+    }
+</script>
+</body>
+</html>

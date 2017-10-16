@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:300px;
+            height:100px;
+            margin: 0 auto;
+            text-align: center;
+            border:#000 1px solid;
+        }
+        span{
+            width:50px;
+            line-height:30px;
+            border:#f00 1px solid;
+            display:inline-block;
+        }
+        span.active{
+            background-color:#F00;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<form action = "#">
+    <input type="hidden" value="男" name="sex">
+    <div>
+        <p>请选择您的性别</p>
+        <span class="active">男</span>
+        <span>女</span>
+        <span>保密</span>
+        <input type="submit" value="提交">
+    </div>
+</form>
+<script>
+    var spans = document.querySelectorAll('span');
+    var sex = document.querySelector('input');
+    for(var i = 0;i<spans.length;i++){
+        spans[i].index = i;
+        spans[i].onclick = function() {
+            for(j = 0;j<spans.length;j++){
+                if(spans[j]==this){
+                    spans[j].className = 'active';
+                    console.log(spans[j].innerHTML);
+                    sex.value = spans[j].innerHTML;
+                }else{
+                    spans[j].className = '';
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

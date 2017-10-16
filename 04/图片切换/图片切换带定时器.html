@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box{
+            width:520px;
+            height:280px;
+            overflow: hidden;
+            position: relative;
+            margin:0 auto;
+        }
+        .banner{
+            width:2080px;
+            position:absolute;
+            left:0;
+            transition: 1s;
+        }
+        .banner img{
+            float: left;
+        }
+        .nav{
+            width:100%;
+            text-align: center;
+            position:absolute;
+            bottom:15px;
+            left:0;
+        }
+        .nav a{
+            display: inline-block;
+            width:15px;
+            height:15px;
+            border-radius: 50%;
+            background-color: #fff;
+            color:#f00;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .nav a.cur{
+            background-color: #f00;
+            color:#fff;
+        }
+        .btn a{
+            position:absolute;
+            text-decoration: none;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            top:50%;
+            background-color: #fff;
+            color:#f00;
+        }
+        .btn a:hover{
+            background-color: #f60;
+            color:#fff;
+        }
+        .btn a:nth-of-type(1){
+            left:0;
+        }
+        .btn a:nth-of-type(2){
+            right:0;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="banner">
+        <img src="img/1.jpg">
+        <img src="img/2.jpg">
+        <img src="img/3.jpg">
+        <img src="img/4.jpg">
+    </div>
+    <div class="nav">
+        <a href="javascript://" class="cur">1</a>
+        <a href="javascript://">2</a>
+        <a href="javascript://">3</a>
+        <a href="javascript://">4</a>
+    </div>
+    <div class="btn">
+        <a href="javascript://">&lt;</a>
+        <a href="javascript://">&gt;</a>
+    </div>
+</div>
+<script>
+    //获取元素样式
+    function currentStyle(el,attr){
+        if(el.currentStyle){
+            return el.currentStyle[attr];
+        }
+        return getComputedStyle(el)[attr];
+    }
+    //获取元素
+    var box = document.querySelector('.box');
+    var banner = document.querySelector('.banner');
+    var imgs = banner.querySelectorAll('.banner img');
+
+    var as = document.querySelectorAll('.nav a');
+    var btns = document.querySelectorAll('.btn a');
+    var w = parseInt(currentStyle(box,'width'));
+    var timer = 0;
+    var num = 0;
+    //定时器
+    timer = setInterval(imgTab,2000);
+    function imgTab(){
+        num++;
+        if(num>imgs.length-1){
+            num = 0;
+        }
+        doFun();
+    }
+    //每个加事件
+    for(var i = 0;i<as.length;i++){
+        (function(index){
+            as[index].onclick = function(){
+                num = index;
+                doFun();
+            };
+        })(i);
+    }
+    //清除定时器 开始定时器
+    box.onmouseover = function(){
+        clearInterval(timer);
+    }
+    box.onmouseout = function(){
+        timer = setInterval(imgTab,2000);
+    }
+    //上一张
+    btns[0].onclick = function(){
+        num--;
+        if(num<0){
+            num = imgs.length-1;
+        }
+        banner.style.left = -(num*w)+'px';
+        for(var i = 0; i< as.length;i++){
+            as[i].className = '';
+        }
+        as[num].className ='cur';
+    };
+    //下一张
+    btns[1].onclick = function(){
+        num++;
+        if(num>imgs.length-1){
+            num = 0;
+        }
+        doFun();
+    };
+    //共同的
+    function doFun() {
+        banner.style.left = -(num*w)+'px';
+        for(var i = 0; i< as.length;i++){
+            as[i].className = '';
+        }
+        as[num].className ='cur';
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li{
+            margin:0;
+            padding:0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .wrap{
+            width:540px;
+            height:340px;
+            margin:0 auto;
+            padding:80px;
+            background: url("img/bg.jpg")  no-repeat center center;
+        }
+        ul{
+            border-left:#dd9bb9 1px dotted;
+            padding:0 10px;
+            margin-left: 15px;
+        }
+
+        ul ul{
+            display: none;
+        }
+        ul ul.show{
+            display: block;
+        }
+        ul li{
+            cursor:pointer;
+            line-height:26px;
+            padding-left:10px;
+            font-size:14px;
+            /*background: url("img/open.png") no-repeat left 5px;*/
+        }
+    </style>
+</head>
+<body>
+<div class="wrap"></div>
+<script type="text/javascript">
+    var data = [
+        {
+            text: "家用电器",
+            child: [
+                {
+                    text:"电视",
+                    child: [
+                        {
+                            text:"曲面电视"
+                        },{
+                            text:"超薄电视"
+                        }
+                    ]
+                },{
+                    text:"空调",
+                    child: [
+                        {
+                            text: "壁挂式空调"
+                        },{
+                            text: "柜式空调"
+                        },{
+                            text: "中央空调"
+                        }
+                    ]
+                },{
+                    text:"洗衣机"
+                },{
+                    text:"冰箱"
+                },{
+                    text:"进口电器"
+                }
+            ]
+        },{
+            text: "手机 / 运营商 / 数码"
+        },{
+            text: "电脑 / 办公",
+            child:[
+                {
+                    text: "电脑整机"
+                },{
+                    text: "电脑配件"
+                }
+            ]
+        },{
+            text: "家居 / 家具 / 家装 / 厨具"
+        },{
+            text: "男装 / 女装 / 童装 / 内衣"
+        },{
+            text: "美妆个护 / 宠物"
+        }
+    ];
+    //console.log(data);
+    /*
+     练习要求:
+     1. 根据data的格式，写出整个html结构(ul>li>ul)
+     2. 添加js可以正常操作
+     3. 根据data生成整个html结构__扩展
+     */
+
+    (function(){
+        //阻止冒泡
+        function stopPropagation(e) {
+            e = e || window.event;
+            if(e.stopPropagation) { //W3C阻止冒泡方法
+                e.stopPropagation();
+            } else {
+                e.cancelBubble = true; //IE阻止冒泡方法
+            }
+        }
+
+
+        var wrap = document.querySelector('.wrap');
+
+        //渲染数据
+        var ul1 = document.createElement('ul');
+            wrap.appendChild(ul1);
+        data.forEach(function(value){
+            var child1 = document.createElement('li');
+                child1.innerHTML = value.text;
+            ul1.appendChild(child1);
+            if(value.child){
+                child1.style.background = 'url("img/open.png") no-repeat left 8px';
+                var ul2 = document.createElement('ul');
+                    child1.appendChild(ul2);
+                value.child.forEach(function(value){
+                        var child2 = document.createElement('li');
+                            child2.innerHTML = value.text;
+                        ul2.appendChild(child2);
+                    if(value.child){
+                        child2.style.background = 'url("img/open.png") no-repeat left 8px';
+                        var ul3 = document.createElement('ul');
+                            child2.appendChild(ul3);
+                        value.child.forEach(function(value){
+                            var child3 = document.createElement('li');
+                                child3.innerHTML = value.text;
+                            ul3.appendChild(child3);
+                        })
+                    }
+                })
+            }
+
+        })
+
+        var lis = document.querySelectorAll('li');
+        for(var i = 0;i<lis.length;i++){
+            lis[i].isOpen = false;
+            lis[i].onclick = function(e){
+                stopPropagation(e);
+
+                var child = this.children[0];
+                if(child) {
+                    if (this.isOpen) {
+                        this.style.backgroundImage = 'url("img/open.png")';
+
+                        child.className = '';
+                    } else {
+                        var allChild = this.parentNode.children;
+                        for(var i = 0;i<allChild.length;i++){
+                            if(allChild[i].children[0]){
+                                allChild[i].style.backgroundImage = 'url("img/open.png")';
+                                allChild[i].children[0].className = '';
+                                allChild[i].isOpen = false;
+                            }
+
+                        }
+                        this.style.backgroundImage = 'url("img/close.png")';
+                        child.className = 'show';
+                    }
+                    this.isOpen = !this.isOpen;
+                }
+
+
+
+            }
+        }
+
+
+
+
+
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="wrap">
+    <div id="menu" style="display: block;">
+        <ul class="title"></ul>
+        <div class="list"></div>
+    </div>
+    <div id="view"></div>
+</div>
+<script src = "data.js"></script>
+<script src = "startmove.js"></script>
+<script>
+    (function(){
+        //数据生成
+        var menu = document.getElementById('menu');//招聘类型列表
+        var view = document.getElementById('view');//招聘详情
+
+        var listEle = document.querySelector('.list'); //招聘列表
+        var limit = 6;//行数
+        var pages;//总页数
+        var nowPage = 0;//当前页数
+
+        //第一次加载数据 传入第一个对象，第一页
+        jobFun(data[0],0);
+        //加载数据
+        function jobFun(data,nowPage)
+        {
+
+            listEle.innerHTML = '';//清空列表
+            //console.log(data,nowPage);
+            var divEle = document.createElement('div');//创建一个div放列表
+
+            //获取数据的起始位置
+            var start = nowPage * limit; //起始循环数据位置
+            var end = (nowPage+1) * limit; //结束循环数据位置
+                //如果结束位置的数字大于了这个数组本身的长度，那么end就是这个数组本身的长度，否则的话就是结束位置
+                end = end > data.child.length ? data.child.length : end;
+
+            //根据每次传入第几个父级数组开始循环
+            for(var j = start ;j < end;j++){
+                //生成为列表
+                var aEle = document.createElement('a');
+                    aEle.href = 'javascript:;';
+                    aEle.innerHTML = '<em></em>' +
+                                     '<div>'+
+                                     '<span class="num">'+numTo((j+1))+'</span>' +
+                                     '  <div>'+
+                                     '    <div>职位需求：' + data.child[j].jobName + '【'+data.title+'】'+ '&nbsp;&nbsp;需求人数：'+data.child[j].people+'名<span class="time">'+data.child[j].getTime+'</span></div>'+
+                                     '    <div>岗位要求：'+(data.child[j].jobCont.join('')).substring(0,19)+'...<span>查看详情>></span></div>'+
+                                     '  </div>'+
+                                     '</div>'
+                aEle.index = j;//给每个a加入索引，对应数组的元素 0 1 2 3 4 5
+                //鼠标移入的时候给背景色，给span，给em加入样式
+                aEle.onmouseover = function(){
+                    this.children[0].className = 'cur';
+                    this.querySelector('.num').className = 'num cur';
+                }
+                //鼠标移出的时候给背景色，给span，给em去掉样式
+                aEle.onmouseout = function(){
+                    this.children[0].className = '';
+                    this.querySelector('.num').className = 'num';
+                }
+                //每次点击的时候控制列表和详情的展示，并且查找详情内容
+                aEle.onclick = function(){
+                    menu.style.display = 'none';
+                    view.style.display = 'block';
+                    viewAddCont(data,this.index);//详情内容函数(总数据,数据索引)
+                }
+                //一次一次的把a标签(列表标签)添加到列表的盒子中
+                divEle.appendChild(aEle);
+
+            }
+
+            //分页模块
+            var pageEle = document.createElement('div');//创建分页的模块
+                pageFun(data);//给pageEle赋值html
+            divEle.appendChild(pageEle);//把已经生成的分页加入到列表后面
+            listEle.appendChild(divEle);//整个列表盒子的渲染
+
+            //分页部分HTML
+            function pageFun(data){
+                pages = Math.ceil(data.child.length/limit);//总页数
+                //如果总页数不只有一页的时候显示
+                if(pages!=1){
+                    var innerHTMLEle = '';
+                    innerHTMLEle = '<a href="javascript://" class="pagePrev">prev</a>';
+
+                    for(var i = 0;i<pages;i++){
+                        if(i==nowPage){
+                            innerHTMLEle += '<a href="javascript://" class="pageNav cur">'+(i+1)+'</a>';
+                        }else{
+                            innerHTMLEle += '<a href="javascript://" class="pageNav">'+(i+1)+'</a>';
+                        }
+
+                    }
+
+                    innerHTMLEle += '<a href="javascript://" class="pageNext">next</a>';
+                    pageEle.innerHTML = innerHTMLEle;
+                }
+            }
+
+            pageClick(data);//绑定分页的操作事件
+
+
+
+        }
+
+        //控制span里面的数字有0的。
+        function numTo(num) {
+            return ( num >= 10 ? '' : '0' )+num;
+        }
+
+        //详情内容函数（每一个数组的元素，第几个数组元素）
+        function viewAddCont(data,i){
+
+            view.innerHTML = '<div class="view-title"><a href="javascript://" class="go-back">&lt; 返回招聘列表</a><a href="javascript://" class="push">投个简历</a></div>'
+            view.innerHTML+= '<h2>'+data.child[i].jobName+ '【'+ data.title +'】'+'</h2>'
+            view.innerHTML+= '   <h5>'+data.child[i].money+' ／ '+data.child[i].place+' ／ '+data.child[i].jobBack+' ／ '+data.child[i].school+' ／ '+data.child[i].people+'名 <span>'+data.child[i].getTime+'</span></h5>'
+            view.innerHTML+= '   <div>'
+            view.innerHTML+= '   <h4>岗位要求：</h4>'
+            view.innerHTML+= '   <div>'
+            for(var j=0;j<data.child[i].jobCont.length;j++){
+                view.innerHTML+= data.child[i].jobCont[j]+'<br/>';
+            }
+            view.innerHTML+= '   </div>'
+            view.innerHTML+= '   </div>'
+            view.innerHTML+= '   <div>'
+            view.innerHTML+= '   <h4>工作职责：</h4>'
+            view.innerHTML+= '   <div>'+data.child[i].jobNeed+'</div>'
+            view.innerHTML+= '   </div>'
+
+            //返回招聘列表
+            var btnBack = document.querySelector('.go-back');
+            btnBack.onclick = function(){
+                menu.style.display = 'block';
+                view.style.display = 'none';
+            }
+        }
+
+
+
+        //分页添加各种点击事件，没点击一项就去渲染一次列表盒子，主要控制nowPage
+        function pageClick(data){
+            //不只有一页的时候才起到作用
+            if(pages!=1) {
+                //分页
+                var pagePrevEle = document.querySelector('.pagePrev');
+                var pageNextEle = document.querySelector('.pageNext');
+                var pageNavEle = document.querySelectorAll('.pageNav');
+                //页数
+                for(var i = 0;i<pageNavEle.length;i++){
+                    pageNavEle[i].index =i;
+                    pageNavEle[i].onclick = function () {
+                        nowPage = this.index;
+                        jobFun(data,nowPage);
+                    }
+                }
+                //上一页
+                pagePrevEle.onclick = function(){
+                    nowPage--;
+                    if(nowPage<0){
+                        nowPage = 0;
+                        alert('已经到第一页了');
+                        return false;
+                    }
+                    jobFun(data,nowPage);
+                }
+                //下一页
+                pageNextEle.onclick = function(){
+                    nowPage++;
+                    if(nowPage>=pages){
+                        nowPage = pages - 1;
+                        alert('已经到最后一页了');
+                        return false;
+                    }
+                    jobFun(data,nowPage);
+                }
+            }
+
+
+        }
+
+        //主导航生成
+        var lisTit = document.querySelector('.title');
+        var isOff = true;//控制动画左右切换
+        for(var i = 0;i< data.length;i++){
+            var titLi = document.createElement('li');
+                i == 0 ?titLi.className = 'cur':'';
+                titLi.index = i;
+                titLi.innerHTML = '<a href="javascript:;">'+data[i].title+'</a>'+data[i].titleEn;
+                //每一个li添加点击事件
+                titLi.onclick = function(){
+                    nowPage = 0;//每次点击当前页数恢复到0
+                    var lis = document.querySelectorAll('.title li');
+                    for(var i = 0;i<lis.length;i++){
+                        lis[i].className = '';
+                    }
+                    this.className = 'cur';
+                    jobFun(data[this.index],0);
+                    //如果是true,就左切换，否则就右切换
+                    isOff? moveStartEnd(-460):moveStartEnd(460);
+                    isOff = !isOff;
+                }
+                lisTit.appendChild(titLi);
+        }
+
+        //切换动画
+        function  moveStartEnd(leftValue) {
+            startMove({
+                el:listEle.children[0],
+                target:{
+                    left:leftValue,
+                    opacity:0
+                },
+                time:500,
+                type:'easeOut',
+                callBack:function(){
+                    css(listEle.children[0],'top',-480);
+                    css(listEle.children[0],'left',0);
+                    css(listEle.children[0],'opacity',1);
+                    startMove({
+                        el:listEle.children[0],
+                        target:{
+                            top:0
+                        },
+                        time:300,
+                        type:'easeOut'
+                    });
+                }
+            });
+        }
+
+
+    })();
+</script>
+</body>
+</html>

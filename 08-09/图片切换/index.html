@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box {
+            margin: 100px auto 0;
+            width: 600px;
+            height: 360px;
+            border: 1px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+        img {
+            position: absolute;
+            left: 600px;
+            top:360px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div id="box">
+    <img style="left: 0;top:0" src="img/1.jpg" />
+    <img src="img/2.jpg" />
+    <img src="img/3.jpg" />
+    <img src="img/4.jpg" />
+    <img src="img/5.jpg" />
+</div>
+<script src="startmove.js"></script>
+<script>
+    var imageElements = document.querySelectorAll('img');
+
+    //当前要显示的图片的张数
+    var n = 0;
+    document.onkeydown = function(e){
+
+        if(e.keyCode == 37){
+            prevNext(-1);
+        }
+        if(e.keyCode == 38){
+            topBottom(-1);
+        }
+        if(e.keyCode == 39){
+            prevNext(1);
+        }
+        if(e.keyCode == 40){
+            topBottom(1);
+        }
+    }
+    //左右切换
+    function prevNext(v) {
+        for(var i = 0;i<imageElements.length;i++){
+            css(imageElements[i],'top',0);
+            css(imageElements[i],'left',600);
+
+        }
+        css(imageElements[n],'left',0);
+
+        startMove({
+            el:imageElements[n],
+            target:{
+                left: -v * 600
+            },
+            type:'linear',
+            time:500
+        });
+
+        n = n + v;
+
+        if (n < 0) {
+            n = imageElements.length - 1;
+        }
+
+        if (n==imageElements.length) {
+            n = 0;
+        }
+
+        imageElements[n].style.left = v * 600 +'px';
+        startMove({
+            el:imageElements[n],
+            target:{
+                left: 0
+            },
+            type:'linear',
+            time:500
+        });
+    }
+
+    //上下切换
+    function topBottom(v){
+        for(var i = 0;i<imageElements.length;i++){
+            css(imageElements[i],'left',0);
+            css(imageElements[i],'top',360);
+        }
+
+        css(imageElements[n],'top',0);
+        startMove({
+            el:imageElements[n],
+            target:{
+                top: -v * 360
+            },
+            type:'linear',
+            time:500
+        });
+
+        n = n + v;
+
+        if (n < 0) {
+            n = imageElements.length - 1;
+        }
+
+        if (n==imageElements.length) {
+            n = 0;
+        }
+
+        imageElements[n].style.top = v * 360 + 'px';
+        startMove({
+            el:imageElements[n],
+            target:{
+                top: 0
+            },
+            type:'linear',
+            time:500
+        });
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        .box {
+            width: 300px;
+        }
+        .box div {
+            box-sizing: border-box;
+            height: 20px;
+            border: 1px solid #000;
+        }
+        #backBtn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 40px;
+            height: 40px;
+            font: 16px/20px "宋体";
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <script type="text/javascript">
+        for(var i = 0; i < 100; i++){
+            document.write('<div>'+i+'</div>');
+        }
+    </script>
+</div>
+<a href="javascript:;" id="backBtn">返回顶部</a>
+
+<script type="text/javascript">
+    (function(){
+        var backBtn = document.getElementById("backBtn");
+        backBtn.onclick = function(){
+            clearInterval(timer);
+            var scrollY = document.documentElement.scrollTop||document.body.scrollTop;
+            var timer = setInterval(function(){
+                if(scrollY<=0){
+                    clearInterval(timer);
+                    return;
+                }
+                scrollY-=50;
+                window.scrollTo(scrollY,scrollY);
+            },18);
+        };
+    })();
+</script>
+</body>
+</html>

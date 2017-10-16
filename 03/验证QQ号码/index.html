@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div,p{
+            margin:0;
+            padding:0;
+        }
+        .miaoV{
+            width:400px;
+            height:100px;
+            margin:0 auto;
+            background:#8d8bb4;
+            background:-webkit-gradient(linear, 0 0, 0 100%, from(#8d8bb4), to(#dd9bb9));
+            border-radius:5px;
+            padding:50px 80px;
+            color:#fff;
+        }
+        button{
+            background-color: #ff6600;
+            color: #fff;
+            font-size: 14px;
+            border:none;
+            outline: none;
+        }
+        p{
+            width:200px;
+            margin: 20px auto;
+        }
+    </style>
+
+</head>
+<body>
+<div class="miaoV">
+    请输入QQ号：<input type="text" > <button>检测</button><p></p>
+</div>
+<script>
+    var tex = document.querySelector('input');
+    var but = document.querySelector('button');
+    var p = document.querySelector('p');
+    but.onclick = function() {
+        var val = tex.value;
+        if(val.length==''){
+            p.innerHTML = '内容不能为空';
+        }else if(isNaN(val)){
+            p.innerHTML = '内容必须是数字';
+        }else if(val[0]==' '){
+            p.innerHTML = '第一位不能是空格';
+        }else if(val[0]=='0'){
+            p.innerHTML = '第一位不能是0';
+        }else if(val[0]=='-'){
+            tex.value = -parseInt(val);
+            p.innerHTML = 'QQ号自动转换为正整数';
+        }else if(val.length<5 || val.length>10) {
+            p.innerHTML = '内容是5-10位数字';
+            //}else if(parseFloat(val) > parseInt(val) || val.length>String(parseInt(val)).length){
+        }else if(val != (parseInt(val).toString())){
+            p.innerHTML = '不能是小数';
+        }else{
+            p.innerHTML = '';
+        }
+    };
+</script>
+</body>
+</html>

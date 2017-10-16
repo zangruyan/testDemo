@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        ul,h3,p {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        img {
+            border: none;
+            vertical-align: top;
+        }
+        a {
+            text-decoration: none;
+        }
+        .wrap {
+            margin: 50px auto;
+            position: relative;
+            width: 300px;
+            height: 449px;
+            overflow: hidden;
+        }
+        .pics {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .pics li {
+            float: left;
+            position: relative;
+        }
+        .pics li div{
+            position: absolute;
+            width: 100%;
+            height:50px;
+            bottom:-80px;
+            color:#fff;
+            padding:15px 10px;
+            background-color:rgba(0,0,0,.5);
+        }
+    </style>
+    <script type="text/javascript" src="startmove.js"></script>
+    <script type="text/javascript">
+        window.onload = function(){
+            var wrap = document.querySelector('.wrap');
+            var pics = document.querySelector('.pics');
+            var lis = pics.getElementsByTagName('li');
+            var liW = css(lis[0],"width");
+            var now = 0;
+            var timer = 0;
+            pics.innerHTML += pics.innerHTML;
+            pics.style.width = lis.length + "00%";
+            timer = setInterval(Tab,3000);
+
+            topBom();
+            function Tab(){
+                //now是第二组的第0张,那么再点击就会超出,我们需要把图拉回至第一组第0张,再继续动画
+                if(now == lis.length/2){
+                    now = 0;
+                    css(pics,"left",-now * liW);
+                }
+                now++;
+                startMove({
+                    el: pics,
+                    target: {
+                        left: -now * liW
+                    },
+                    type: "easeOut",
+                    time: 600,
+                    callBack:function(){
+                        topBom();
+                    }
+                });
+            };
+            function topBom(){
+                startMove({
+                    el: lis[now].querySelector('div'),
+                    target: {
+                        bottom:0
+                    },
+                    type: "easeOut",
+                    time: 600,
+                    callBack:function(){
+                        setTimeout(function(){
+                            startMove({
+                                el: lis[now].querySelector('div'),
+                                target: {
+                                    bottom:-80
+                                },
+                                type: "easeOut",
+                                time: 600
+                            });
+                        },1000);
+
+                    }
+                });
+            };
+        };
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <ul class="pics">
+        <li>
+            <a href="#">
+                <img src="img/1.JPG">
+            </a>
+            <div>
+                <h3>XX老师1</h3>
+                <p>这个老师好好好哈</p>
+            </div>
+        </li>
+        <li>
+            <a href="#">
+                <img src="img/2.JPG">
+            </a>
+            <div>
+                <h3>XX老师2</h3>
+                <p>这个老师好好好哈</p>
+            </div>
+        </li>
+        <li>
+            <a href="#">
+                <img src="img/3.JPG">
+            </a>
+            <div>
+                <h3>XX老师3</h3>
+                <p>这个老师好好好哈</p>
+            </div>
+        </li>
+        <li>
+            <a href="#">
+                <img src="img/4.JPG">
+            </a>
+            <div>
+                <h3>XX老师4</h3>
+                <p>这个老师好好好哈</p>
+            </div>
+        </li>
+        <li>
+            <a href="#">
+                <img src="img/5.JPG">
+            </a>
+            <div>
+                <h3>XX老师5</h3>
+                <p>这个老师好好好哈</p>
+            </div>
+        </li>
+        <li>
+            <a href="#">
+                <img src="img/6.JPG">
+            </a>
+            <div>
+                <h3>XX老师6</h3>
+                <p>这个老师好好好哈</p>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

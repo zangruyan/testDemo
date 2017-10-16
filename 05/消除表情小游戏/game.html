@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div,p,h4{
+            margin:0;
+            padding:0;
+        }
+        .wrap{
+            width:600px;
+            height:547px;
+            background-color:#8d8bb4;
+            margin:20px auto;
+            overflow: hidden;
+        }
+        .title{
+            text-align: center;
+            color:#fff;
+            line-height: 45px;
+        }
+        .cont{
+            width:450px;
+            height:450px;
+            margin:0 auto;
+            border:#eee 3px solid;
+            position: relative;
+            top:0;
+            left:0;
+        }
+        .score{
+            position: absolute;
+            width:50px;
+            height:50px;
+            text-align: center;
+            border:#eee 2px solid;
+            border-radius: 50%;
+            color:#fff;
+            left:10px;
+            transition: 1s;
+        }
+        .score:nth-of-type(1){
+            background-color: #d97ea7;
+            top:30px;
+        }
+        .score:nth-of-type(2){
+            background-color:#2aabd2;
+            top:100px;
+        }
+        .score span{
+            display: block;
+        }
+        .cont>a {
+            position:absolute;
+            bottom:10px;
+            text-decoration: none;
+            outline: none;
+            color:#fff;
+            width:100px;
+            height:35px;
+            line-height:35px;
+            background-color: #f60;
+            border-radius:50px;
+            text-align: center;
+            left:50%;
+            margin-left:-50px;
+            transition:.3s;
+        }
+        .face{
+            width:50px;
+            height:50px;
+            left:0;
+            top:-30px;
+            position: absolute;
+            cursor:pointer;
+        }
+        .face img{
+            width:50px;
+            height:50px;
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="title">
+        <h4>你的鼠标有多快？</h4>
+        <p>游戏说明："点击游戏"，随机掉下表情点中它，千万别让它掉下去！！</p>
+    </div>
+    <div class="cont">
+        <div class="score">
+            <span>0分</span>
+            得分
+        </div>
+        <div class="score">
+            <span>0分</span>
+            失分
+        </div>
+        <a href="javascript://">开始游戏</a>
+        <div class="face"></div>
+    </div>
+</div>
+<script src="startmove.js"></script>
+<script>
+    var arr = ['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg'];
+    var cont = document.querySelector('.cont');
+    var addScoreElement = document.querySelectorAll('.score')[0];
+    var minScoreElement = document.querySelectorAll('.score')[1];
+    var addScoreSpan = addScoreElement.querySelector('span');
+    var minScoreSpan = minScoreElement.querySelector('span');
+    var startBtnElement = document.querySelector('.cont a');
+    var faceElement = document.getElementsByClassName('face')[0];
+    var timer = '';
+    startBtnElement.onclick = function(){
+        btnStart();
+        Game();
+    }
+    //开始按钮
+    function btnStart(){
+        startMove({
+            el: addScoreElement,
+            target: {
+                left:-65
+            },
+            type: 'bounceOut',
+            time: 100
+        });
+        startMove({
+            el: minScoreElement,
+            target: {
+                left:-65
+            },
+            type: 'linear',
+            time: 100
+        });
+        startMove({
+            el: startBtnElement,
+            target: {
+                bottom:-45
+            },
+            type: 'linear',
+            time: 100,
+            callBack:function(){
+                startBtnElement.style.display = 'none';
+            }
+        });
+    }
+    //游戏主体
+    function Game(){
+        downFace();
+        timer = setInterval(downFace,3200);
+    }
+
+    function downFace(){
+        var i = parseInt(Math.random()*4);//0-4 图片变换
+        var x = parseInt(Math.random() * (400-10) + 10);//10-400 起始位置x坐标
+
+        faceElement.style.display = 'block';//让脸显示出来
+        //掉的脸进行每次的初始化
+        css(faceElement,'left',x);
+        css(faceElement,'top',0);
+        faceElement.innerHTML = '<img src="'+arr[i]+'">';
+        faceElement.onclick = faceOnclick; //给faceElement绑定事件
+        //下落的动画
+        startMove({
+            el: faceElement,
+            target: {
+                top:450
+            },
+            type: 'linear',
+            time: 2800,
+            callBack:function(){ //下落动画结束
+                var faceOver = css(faceElement,'top');
+                faceElement.style.display = 'none';
+                //失分
+                if(faceOver>=450){
+                    shake('top',cont);//抖动函数
+                    setTimeout(function(){
+                        var score = parseInt(minScoreSpan.innerHTML)+1;
+                        minScoreSpan.innerHTML = score+'分';
+                    },380);
+                }
+            }
+        });
+    }
+    //点击到笑脸
+    function faceOnclick(){
+
+        //清除点击事件，清除动画，清除计时器
+        faceElement.onclick = null;
+        clearInterval(timer);
+        clearInterval(faceElement.timer);//终止表情动画
+
+        this.innerHTML = '<img src="img/5.jpg">';
+        shake('left',faceElement);//抖动函数
+
+        //延迟修改分数
+        setTimeout(function(){
+            //设置得分
+            var score = parseInt(addScoreSpan.innerHTML)+1;
+            addScoreSpan.innerHTML = score+'分';
+
+            //延迟让表情消失
+            setTimeout(function(){
+                faceElement.style.display = 'none';
+                Game();
+            },200);
+        },380);
+
+    }
+    //上下、左右抖动函数
+    function shake(topLeft,el){
+        var StyleCss = (topLeft == 'top' ? css(el,'top') :css(el,'left'));
+        // 抖动效果
+        var v = 10;
+        var a = true;
+        var timer = setInterval(function() {
+            if (a) {
+                el.style[topLeft] = StyleCss-v + 'px';
+            } else {
+                el.style[topLeft] = StyleCss+v + 'px';
+                v -= 2;
+                if (v == 0) {
+                    clearInterval(timer);
+                    el.style[topLeft] = StyleCss;
+                }
+            }
+
+            a = !a;
+
+        }, 38);
+    }
+</script>
+</body>
+</html>

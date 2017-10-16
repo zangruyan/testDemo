@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,div,label,input,p{
+            margin: 0;
+            padding:0;
+        }
+        .wrap{
+            width:500px;
+            height:300px;
+            margin:30px auto;
+            box-shadow: 1px 2px 8px #333333;
+            border-radius:8px;
+            padding:10px 0;
+            position:relative;
+        }
+        .cont{
+            max-height: 260px;
+            overflow-y: scroll;
+        }
+        .cont label{
+            display: block;
+            height:40px;
+            line-height:40px;
+            padding:0 10px;
+            overflow: hidden;
+        }
+        .cont label span{
+            float: right;
+        }
+        .wrap p{
+            position: absolute;
+            bottom:10px;
+            padding:0 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="cont">
+        <label>
+            <input type="checkbox"> 泡沫1 <span>邓紫棋</span>
+        </label>
+        <label>
+            <input type="checkbox"> 泡沫2 <span>邓紫棋</span>
+        </label>
+        <label>
+            <input type="checkbox"> 泡沫3 <span>邓紫棋</span>
+        </label>
+        <label>
+            <input type="checkbox"> 泡沫4 <span>邓紫棋</span>
+        </label>
+        <label>
+            <input type="checkbox"> 泡沫5 <span>邓紫棋</span>
+        </label>
+        <label>
+            <input type="checkbox"> 泡沫6 <span>邓紫棋</span>
+        </label>
+    </div>
+    <p>
+        <label><input type="checkbox" id="all"> 全选</label>
+    </p>
+</div>
+<script>
+    /*获取元素 定义隔行的颜色（此题目也可以直接换class）*/
+    var cont = document.querySelector('.cont');
+    var inputs = cont.querySelectorAll('input');
+    var label = cont.querySelectorAll('label');
+    var all = document.querySelector('#all');
+    var colors = ['#dd9bb9','#dd4bb0'];
+    var num = 0;
+    /*循环 (color)*/
+    for(var i = 0;i<inputs.length;i++){
+        //循环设置颜色
+        label[i].style.background = colors[i%colors.length];
+        label[i].index = i;
+        //鼠标移入事件
+        label[i].onmouseover = function(){
+            this.style.background = '#f00';
+        }
+        //鼠标移出事件
+        label[i].onmouseout = function(){
+            if(!this.querySelector('input').checked){
+                this.style.background = colors[this.index%colors.length];
+            }
+        }
+
+        //单个点击
+        inputs[i].index = i;
+        inputs[i].onchange = function(){
+            for(var i=0 ;i<inputs.length;i++){
+                if(!inputs[i].checked){
+                    all.checked = false;
+                    break;
+                }else{
+                    all.checked = true;
+                }
+            }
+        }
+    }
+    /*全选反选*/
+    all.onchange = function() {
+        for(var i = 0;i<inputs.length;i++){
+            inputs[i].index = i;
+            if(this.checked){
+                label[i].style.background = '#f00';
+            }else{
+                label[i].style.background = colors[i%colors.length];
+            }
+            inputs[i].checked = this.checked;//全选就是都选择，反之就是都不选择。
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li{
+            margin:0;
+            padding:0;
+            list-style: none;
+        }
+        textarea,input{
+            outline: none;
+        }
+        .wrap{
+            width:740px;
+            height:440px;
+            margin:30px auto;
+            border-radius: 5px;
+            text-align: center;
+            padding:30px;
+        }
+        textarea{
+            resize:none;
+            border:#666 2px solid;
+            width:80%;
+            height:60px;
+        }
+        input{
+            width:100px;
+            height:30px;
+            display: inline-block;
+            border:none;
+            background-color: #f80;
+            color:#fff;
+            font-size:16px;
+            border-radius: 3px;
+        }
+        input:hover{
+            background-color:#f00;
+        }
+        input:active{
+            box-shadow: inset #000 0px 0px 8px;
+        }
+        ul{
+            width:600px;
+            margin:30px auto;
+            text-align: left;
+        }
+        ul li{
+            line-height:35px;
+            font-size:14px;
+            margin-bottom: 3px;
+            padding:0 10px;
+            position: relative;
+        }
+        ul li.color1{
+            background-color:#f3f8f8;
+        }
+        ul li.color2{
+            background-color:#dbdfdf;
+        }
+        ul li a{
+            position: absolute;
+            right:5px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <textarea></textarea>
+    <div><input type="button" value="提交留言" /></div>
+    <ul></ul>
+</div>
+<script>
+   var ulElement = document.querySelector('ul');
+   var textEle = document.querySelector('textarea');
+   var btn = document.querySelector('input');
+   var color = ['color1','color2'];
+   var num = 0;
+
+   var as = document.createElement('a');
+   as.innerHTML = '删除';
+
+   btn.onclick = getSay;
+   function getSay() {
+       if(textEle.value.trim()==''){
+           alert('请填入内容');
+           return false;
+       }
+       var newLi = document.createElement("li");
+       var textnode=document.createTextNode(textEle.value);
+       newLi.appendChild(textnode);
+       newLi.className = color[num%color.length];
+
+       ulElement.insertBefore(newLi,ulElement.childNodes[0]);
+       num++;
+
+
+
+       var lis = ulElement.children;
+
+       for(var i = 0;i<lis.length;i++){
+           lis[i].onmouseover = function(){
+
+               this.appendChild(as);
+
+               as.onclick = function(){
+                   ulElement.removeChild(this.parentNode);
+               }
+           }
+       }
+
+
+   }
+
+</script>
+</body>
+</html>

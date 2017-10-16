@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin:0;
+            padding:0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .wrap{
+            width:700px;
+            height:498px;
+            margin:0 auto;
+            background:url("img/bg.jpg") no-repeat center center;
+            position: relative;
+        }
+        ul{
+            position: absolute;
+            top:150px;
+        }
+        ul li{
+            float: left;
+            width:85px;
+            height:68px;
+            margin-right: 20px;
+            color:#fff;
+            text-align: center;
+            position: relative;
+            padding:20px;
+            cursor: pointer;
+            border-radius:8px;
+            font-size: 12px;
+            margin-bottom:15px;
+        }
+        ul li:hover,ul li.active{
+            background-color:rgba(0,0,0,.4);
+        }
+        ul li input[type='text']{
+            width:70px;
+            display: none;
+        }
+
+        ul li input[type='checkbox']{
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        .fileBtn{
+            position: absolute;
+            bottom:50px;
+            width:260px;
+            left:50%;
+            margin-left:-100px;
+        }
+        .fileBtn input{
+            width:100px;
+            height:35px;
+            background-color:#ccc;
+            color:#fff;
+            border-radius:8px;
+            border:none;
+            cursor:pointer;
+            outline: none;
+        }
+        .fileBtn input:hover{
+            color:#000;
+            background-color: #fff;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <ul></ul>
+    <div class="fileBtn">
+        <input type="button" value="新建文件夹">
+        <input type="button" value="删除文件夹">
+    </div>
+</div>
+<script>
+    (function(){
+        var newFile = document.querySelectorAll('.fileBtn input')[0];
+        var delFile = document.querySelectorAll('.fileBtn input')[1];
+        var ulEle = document.querySelector('ul');
+        var n = 0,maxNum = 8,oldLi;
+
+        var delArr = [];
+        var newArr = [];
+        //新建文件夹
+        newFile.onclick = function(){
+
+            //用来判断当前的li的个数不能超过最大的个数
+            var liLen = ulEle.getElementsByTagName('li').length;
+            if(liLen >= maxNum){
+                alert('此处只能建8个文件夹哦～');
+                return false;
+            }
+
+            //如果已经删除的数组长度为0，则证明没有小于当前n的新建文件夹了
+            if(delArr.length==0){
+                //之前没有删除过，就创建新的
+                n++;
+                var liEle = document.createElement('li');
+                liEle.dataset.rename = false;
+                liEle.innerHTML = '<input type="checkbox" /><img src="img/file.jpg"><span>新建文件夹'+n+'</span><input type="text" />';
+
+            }else{
+                //之前删除过的，就把第一个li拿过来
+                var liEle = delArr[0];
+                liEle.className = '';
+                liEle.querySelector('input[type="checkbox"]').checked = false;
+                delArr.shift();
+            }
+            newArr.push(liEle);
+            ulEle.appendChild(liEle);
+
+            //单选
+            liEle.querySelector('input[type="checkbox"]').onchange = function(){
+                if(this.checked){
+                    liEle.className = 'active';
+                }else{
+                    liEle.className = '';
+                }
+            }
+
+            //点击可以修改名称
+            liEle.querySelector('span').onclick = function(){
+                oldLi = liEle.cloneNode(true);
+                this.style.display = 'none';
+                liEle.querySelector('input[type="text"]').style.display = 'block';
+                liEle.querySelector('input[type="text"]').focus();
+            }
+
+            //离开的时候名称变化
+            liEle.querySelector('input[type="text"]').onblur = function(){
+
+                if(this.value!='' && this.value != liEle.querySelector('span').innerHTML){
+                    for(var i = 0 ;i<newArr.length;i++){
+                        if(this.value == newArr[i].querySelector('span').innerHTML){
+                            alert('文件夹已存在');
+                            //this.focus();
+                            return;
+                        }
+                    }
+
+                    //只要修改过就是true
+                    liEle.dataset.rename = true;
+                    liEle.querySelector('span').innerHTML = this.value;
+
+                    //如果没有修改过，就把没有修改之前的值push到删除的数组中
+                    if(oldLi.dataset.rename=='false'){
+                        delArr.push(oldLi);
+                    }
+
+                }
+
+                //console.log(delArr);
+                for(var i = 0;i<delArr.length;i++){
+                    if(liEle==delArr[i]){
+                        console.log(i);
+                        delArr.splice(i,1);
+                    }
+                }
+                //console.log(liEle);
+
+                console.log(newArr);
+                console.log(delArr);
+
+                this.style.display = 'none';
+                liEle.querySelector('span').style.display = 'block';
+            }
+
+        }
+        //删除文件夹
+        delFile.onclick = function(){
+            //获取所有选中的文件夹
+            var lis = ulEle.querySelectorAll('.active');
+            //没有的话提示并return
+            if(lis.length<=0){
+                alert('您尚未选择要删除的文件夹');
+                return false;
+            }
+            //有的话删除并且push到一个已经删除的数组，并且排序
+            for(var i = 0;i<lis.length;i++){
+                lis[i].className = '';
+                //之前就修改过名称的则不加入已经删除了的数组，否则就直接删除
+                if(lis[i].dataset.rename=='true'){
+                    ulEle.removeChild(lis[i]);
+                }else{
+                    delArr.push(ulEle.removeChild(lis[i]));
+                }
+
+            }
+
+            //排序是保证每次都是从删除的数字中最小的开始算
+            delArr.sort(function(a,b){
+                return parseInt(a.querySelector('span').innerHTML.substr(5)) - parseInt(b.querySelector('span').innerHTML.substr(5));
+            });
+
+        }
+    })();
+</script>
+</body>
+</html>

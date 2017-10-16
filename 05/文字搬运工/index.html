@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap{
+            width:600px;
+            height:400px;
+            margin:50px auto;
+        }
+        .wrap textarea{
+            border:#000 1px solid;
+            width:40%;
+            float:left;
+            height:400px;
+        }
+        .wrap div{
+            width:15%;
+            float: left;
+        }
+        .wrap div button{
+            border:none;
+            background-color: #2aabd2;
+            color:#fff;
+            display: block;
+            margin: 50px auto 10px;
+            outline: none;
+            transition: 1s;
+        }
+
+        .wrap div span{
+            text-align: center;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <textarea id="old">
+        妙味课堂是一家专注于前端教学的培训机构，拥有多年的领导就是发啦空间董凡拉开计算的发；拉大空间发了；史蒂芬金卡三闾大夫就啊的；理发健康的发；拉大发大空间发了快递放假
+    </textarea>
+    <div>
+        <button>把文字右移</button>
+        <span>0／0</span>
+    </div>
+    <textarea id="new"></textarea>
+</div>
+<script>
+    var newHtml = document.getElementById('new');
+    var span = document.querySelector('span');
+    var btn = document.querySelector('button');
+    var timer;
+    btn.onclick = function(){
+        var n = 0;
+        var oldElement = document.getElementById('old');
+        var oldHtml = oldElement.value.trim();
+        timer = setInterval(function(){
+            if(n==oldHtml.length){
+                return;
+            }
+            n++;
+            span.innerHTML = n+'/'+oldHtml.length;
+            oldElement.value = oldHtml.substring(n,oldHtml.length);
+            newHtml.value = oldHtml.substring(0,n);
+        },16);
+    }
+
+</script>
+</body>
+</html>

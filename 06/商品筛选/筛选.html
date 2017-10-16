@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li{
+            margin:0;
+            padding:0;
+            font:14px/24px "微软雅黑";
+        }
+        ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color:#000;
+        }
+        .wrap{
+            width:1000px;
+            height:200px;
+            padding:150px 0;
+            margin:50px auto;
+            background:url("img/bg.jpg") no-repeat center center;
+        }
+        .box{
+            width:760px;
+            margin:0 auto;
+        }
+        .head{
+            background-color:rgba(255,255,255,.8);
+            padding:20px;
+        }
+        .head span{
+            position: relative;
+            margin-right: 10px;
+            padding:2px 25px 2px 2px;
+            border:#2aabd2 1px solid;
+            color:#2aabd2;
+        }
+        .head span a{
+            position:absolute;
+            width:16px;
+            height:16px;
+            line-height:16px;
+            right:2px;
+            top:2px;
+            text-align: center;
+            background-color: #2aabd2;
+            color:#fff;
+            font-size: 12px;
+        }
+
+        .list{
+            background-color:rgba(255,255,255,.9);
+            height:170px;
+            padding:20px;
+        }
+        .list li{
+            padding:7px 0;
+            border-bottom:#2aabd2 1px dashed;
+        }
+        .list li span{
+            color:#999;
+        }
+        .list li a{
+            padding:0 10px;
+        }
+        .list li a:hover,.list li a.active{
+            color:#2aabd2;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="box">
+        <div class="head"></div>
+        <ul class="list">
+            <li>
+                <span>品牌：</span>
+                <a href="javascript://">苹果1</a>
+                <a href="javascript://">苹果2</a>
+                <a href="javascript://">苹果3</a>
+                <a href="javascript://">苹果4</a>
+                <a href="javascript://">苹果5</a>
+                <a href="javascript://">苹果6</a>
+            </li>
+            <li>
+                <span>尺寸：</span>
+                <a href="javascript://">3.0英寸一下</a>
+                <a href="javascript://">3.0-3.9英寸</a>
+                <a href="javascript://">4英寸</a>
+                <a href="javascript://" class="active">5英寸</a>
+                <a href="javascript://">6英寸</a>
+                <a href="javascript://">7英寸</a>
+                <a href="javascript://">8英寸</a>
+            </li>
+            <li>
+                <span>系统：</span>
+                <a href="javascript://">系统1</a>
+                <a href="javascript://">系统2</a>
+                <a href="javascript://" class="active">系统3</a>
+                <a href="javascript://">系统4</a>
+                <a href="javascript://">系统5</a>
+                <a href="javascript://">系统6</a>
+            </li>
+            <li>
+                <span>网络：</span>
+                <a href="javascript://">网络1</a>
+                <a href="javascript://">网络2</a>
+                <a href="javascript://">网络3</a>
+                <a href="javascript://">网络4</a>
+                <a href="javascript://">网络5</a>
+                <a href="javascript://" class="active">网络6</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+(function() {
+    var head = document.querySelector('.head');
+    var lis = document.querySelectorAll("li");
+    for(var i = 0;i<lis.length;i++){
+        var asEle = lis[i].querySelectorAll('a');
+        for(var j = 0;j<asEle.length;j++){
+             asEle[j].onclick = function(){
+                 //清除所有样式
+                 var child = (this.parentNode).children;
+                 for(var i = 0;i< child.length;i++){
+                     child[i].className = '';
+                 }
+                 //加入本次点击的样式
+                 this.className = 'active';
+                 selectFun();
+             }
+        }
+    }
+    selectFun();
+    function selectFun(){
+        var selEle = document.querySelectorAll('.active');
+        var inner = '你的选择：';
+        for(var i = 0;i<selEle.length;i++){
+            inner+='<span>'+selEle[i].innerHTML+'<a href="javascript://">X</a></span>';
+
+        }
+        head.innerHTML = inner;
+
+        var closeEle = document.querySelectorAll('.head span a');
+        for(var i = 0;i<closeEle.length;i++){
+            closeEle[i].index = i;
+            closeEle[i].onclick = function(){
+                head.removeChild(this.parentNode);
+                lis[this.index].querySelector('.active').className = '';
+
+            }
+        }
+
+    }
+})()
+</script>
+</body>
+</html>
