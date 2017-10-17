@@ -31,5 +31,6 @@
 - [消除表情小游戏](https://zangruyan.github.io/testPage/05/%E6%B6%88%E9%99%A4%E8%A1%A8%E6%83%85%E5%B0%8F%E6%B8%B8%E6%88%8F/game.html)
 
 ### Demo5
-- []()
-- []()
+- [表单表格操作数据](https://zangruyan.github.io/testPage/06/%E8%A1%A8%E5%8D%95%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/index.html)
+- [表单表格操作数据（全删）](https://zangruyan.github.io/testPage/06/%E8%A1%A8%E5%8D%95%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/index-%E5%85%A8%E5%88%A0.html)
+- [多级菜单](https://zangruyan.github.io/testPage/06/%E5%A4%9A%E7%BA%A7%E8%8F%9C%E5%8D%95/%E8%8F%9C%E5%8D%95-%E9%80%92%E5%BD%92.html)
