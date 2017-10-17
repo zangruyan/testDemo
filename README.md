@@ -13,3 +13,6 @@
 - [京东幻灯片](https://zangruyan.github.io/testPage/02/%E4%BA%AC%E4%B8%9C%E5%B9%BB%E7%81%AF%E7%89%87/%E4%BA%AC%E4%B8%9C%E5%B9%BB%E7%81%AF%E7%89%87.html)
 
 ### Demo2
+- [商品累计](https://zangruyan.github.io/testPage/03/%E5%95%86%E5%93%81%E7%B4%AF%E8%AE%A1/%E5%95%86%E5%93%81%E7%B4%AF%E8%AE%A1.html)
+- [修改文本框的值(即点即改)](https://zangruyan.github.io/testPage/03/%E4%BF%AE%E6%94%B9%E6%96%87%E6%9C%AC%E6%A1%86%E7%9A%84%E5%80%BC/%E4%BF%AE%E6%94%B9%E6%96%87%E6%9C%AC%E6%A1%86%E7%9A%84%E5%80%BC2.html)
+- [验证QQ号码](https://zangruyan.github.io/testPage/03/%E9%AA%8C%E8%AF%81QQ%E5%8F%B7%E7%A0%81/index.html)
