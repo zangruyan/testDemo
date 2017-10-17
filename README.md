@@ -33,4 +33,12 @@
 ### Demo5
 - [表单表格操作数据](https://zangruyan.github.io/testPage/06/%E8%A1%A8%E5%8D%95%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/index.html)
 - [表单表格操作数据（全删）](https://zangruyan.github.io/testPage/06/%E8%A1%A8%E5%8D%95%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/index-%E5%85%A8%E5%88%A0.html)
-- [多级菜单](https://zangruyan.github.io/testPage/06/%E5%A4%9A%E7%BA%A7%E8%8F%9C%E5%8D%95/%E8%8F%9C%E5%8D%95-%E9%80%92%E5%BD%92.html)
+- [多级菜单（递归N个）](https://zangruyan.github.io/testPage/06/%E5%A4%9A%E7%BA%A7%E8%8F%9C%E5%8D%95/%E8%8F%9C%E5%8D%95-%E9%80%92%E5%BD%92.html)
+- [多级菜单（最多三级）](https://zangruyan.github.io/testPage/06/%E5%A4%9A%E7%BA%A7%E8%8F%9C%E5%8D%95/%E8%8F%9C%E5%8D%95-foreach.html)
+- [多级菜单（最多三级）](https://zangruyan.github.io/testPage/06/%E5%A4%9A%E7%BA%A7%E8%8F%9C%E5%8D%95/%E8%8F%9C%E5%8D%95-foreach.html)
+- [留言板](https://zangruyan.github.io/testPage/06/%E7%95%99%E8%A8%80%E6%9D%BF/%E7%95%99%E8%A8%80%E6%9D%BF.html)
+- [商品筛选](https://zangruyan.github.io/testPage/06/%E5%95%86%E5%93%81%E7%AD%9B%E9%80%89/%E7%AD%9B%E9%80%89.html)
+- [上下移动滚动](https://zangruyan.github.io/testPage/06/%E4%B8%8A%E4%B8%8B%E7%A7%BB%E5%8A%A8-%E6%BB%9A%E5%8A%A8/index.html)
+- []()
+- []()
+- []()
